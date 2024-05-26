@@ -4,5 +4,5 @@
   border-radius: 10px !important;
   font-family: 'Open Sans Condensed', "Microsoft Yahei" !important;
   max-width: 780px !important;
-  margin: auto !important;
+  margin: auto;
 }
