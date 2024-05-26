@@ -1,5 +1,8 @@
-.gt-container {
-  position: relative;
-  width: 780px;
-  margin: auto;
+.gt-container,
+.gt-header-textarea,
+.gt-header-preview {
+  border-radius: 10px !important;
+  font-family: 'Open Sans Condensed', "Microsoft Yahei" !important;
+  max-width: 780px !important;
+  margin: auto !important;
 }
