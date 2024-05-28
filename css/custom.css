@@ -1,6 +1,4 @@
-.gt-container,
-.gt-header-textarea,
-.gt-header-preview {
+.gt-container {
   border-radius: 10px !important;
   font-family: 'Open Sans Condensed', "Microsoft Yahei" !important;
   max-width: 780px !important;
