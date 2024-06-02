@@ -13,7 +13,7 @@
 
 
 
-<title>HEXO基础操作之标签 | Hans&#39;BLOOOOG</title>
+<title>HEXO基础操作之插入图片 | Hans&#39;BLOOOOG</title>
 
 
 
@@ -198,7 +198,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">HEXO基础操作之标签</h1>
+            <h1 class="post-title">HEXO基础操作之插入图片</h1>
             
                 <div class="post-meta">
                     
@@ -207,7 +207,7 @@
 
                     
                         <span class="post-time">
-                        📅日期: <a href="#">六月 2, 2024&nbsp;&nbsp;15:04:43</a>
+                        📅日期: <a href="#">六月 2, 2024&nbsp;&nbsp;16:12:10</a>
                         </span>
                     
                 <div>
@@ -224,23 +224,18 @@
         </header>
 
         <div class="post-content">
-            <p>经过好几天的试错与学习，终于是把博客有关标签的一些基础搞明白了，终于进行“二创”啦，事不宜迟，请看下文！</p>
-<h2 id="如何给一篇新文章加标签"><a href="#如何给一篇新文章加标签" class="headerlink" title="如何给一篇新文章加标签"></a>如何给一篇新文章加标签</h2><!-- &#10084; -->
-<p>当用以下代码创建了一篇新文章后</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new ...（...代表你要添加的博客标题与文件名）</span><br></pre></td></tr></table></figure>
-<p>进入…的markdown文件后可以看到标签处是空的<br><img src="/pic/hexo_1/tag_1.png" alt="img" width="500"><br>加入自己需要的标签<br><img src="/pic/hexo_1/tag_2.png" alt="img" width="500"><br>如果需要添加有<strong>多个标签</strong>，则需要用一下语法</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tags: [hexo,markdown,标签]</span><br></pre></td></tr></table></figure>
-<p>效果图如下:<br><img src="/pic/hexo_1/tag_3.png" alt="img" width="500"></p>
-<h2 id="如何修改标签前的＃"><a href="#如何修改标签前的＃" class="headerlink" title="如何修改标签前的＃"></a>如何修改标签前的＃</h2><p>按照路径打开<code>themes\Chic\layout\_page\post.ejs</code>找到如下代码:<br><img src="/pic/hexo_1/tag_4.png" alt="img" width="500"></p>
-<p>修改其中的<code>#</code>即可<br><img src="/pic/hexo_1/tag_5.png" alt="img" width="500"></p>
-<p>效果如下:<br><img src="/pic/hexo_1/tag_6.png" alt="img" width="500"></p>
-<h2 id="如何更改标签页内的标题及点进去的字样"><a href="#如何更改标签页内的标题及点进去的字样" class="headerlink" title="如何更改标签页内的标题及点进去的字样"></a>如何更改标签页内的标题及点进去的字样</h2><p>按照路径打开<code>themes\Chic\layout\tag.ejs</code>找到如下代码，把其中的tag cloud改成自己想要的即可:<br><img src="/pic/hexo_1/tag_7.png" alt="img" width="500"></p>
-<p>效果如下:<br><img src="/pic/hexo_1/tag_10.png" alt="img" width="500"></p>
-<p>虽然修改<code>post title</code>的内容，但是点进去标签后的详情页面还会出现tags的字样<br><img src="/pic/hexo_1/tag_8.png" alt="img" width="500"></p>
-<p>按照路径打开<code>themes\Chic\layout\_page\tag.ejs</code>找到如下代码，修改其中的tags即可:</p>
-<img src="/pic/hexo_1/tag_9.png" alt="img" width="500">
-
-<p>效果如下:<br><img src="/pic/hexo_1/tag_11.png" alt="img" width="500"></p>
+            <p>本文将会介绍几种markdown语法里面图片插入的方法，都是这几天处处碰壁学过来的，事不宜迟，请看下文！</p>
+<h2 id="前置步骤"><a href="#前置步骤" class="headerlink" title="前置步骤"></a>前置步骤</h2><p>在Hexo的目录source中创建一个图片文件夹，例如pic:<br><img src="/pic/hexo_2/photo_1.png" alt="img" width="500"><br>在pic文件夹里面放我们需要插入文章的图片</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>我们可以在md文件里面在需要的地方加入以下格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![alt text](image.png)</span><br></pre></td></tr></table></figure>
+<p>alt text里面是图片未显示时的图片描述，image.png是相对于文件的图片存放位置，例子:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![img](/pic/photo_1.jpg)</span><br></pre></td></tr></table></figure>
+<p>这样就可以显示图片了，但是这种方式的缺点是，有时候由于渲染的原因无法调整大小，这就需要第二种方法</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>与方法一相同，我们可以在md文件里面在需要的地方加入以下格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">&quot;image.png&quot;</span> alt=<span class="string">&quot;alt text&quot;</span> width=<span class="string">&quot;500&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>alt text里面是图片未显示时的图片描述，image.png是相对于文件的图片存放位置，例子:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">&quot;/pic/photo_1.jpg&quot;</span> alt=<span class="string">&quot;img&quot;</span> width=<span class="string">&quot;500&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>在上诉例子中可以对图片的宽度等格式进行操作，具体查看其他相关文档噢！</p>
 <p><strong>(新手第一次写博客，如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
 
         </div>
@@ -274,8 +269,6 @@
                     
                         <a href="/tags/markdown/">🔖markdown</a>
                     
-                        <a href="/tags/%E6%A0%87%E7%AD%BE/">🔖标签</a>
-                    
                         
                 </span>
             </div>
@@ -287,10 +280,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/06/02/hexo_2/">HEXO基础操作之插入图片</a>
             
-            
-            <a class="next" rel="next" href="/2024/06/02/poem_1/">自写诗歌之《兰陵王》</a>
+            <a class="next" rel="next" href="/2024/06/02/hexo_1/">HEXO基础操作之标签</a>
             
         </section>
 
