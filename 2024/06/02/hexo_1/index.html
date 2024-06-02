@@ -13,7 +13,7 @@
 
 
 
-<title>自写诗歌之《兰陵王》 | Hans&#39;BLOOOOG</title>
+<title>HEXO基础操作之标签 | Hans&#39;BLOOOOG</title>
 
 
 
@@ -129,11 +129,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">自写诗歌之《兰陵王》</h1>
+            <h1 class="post-title">HEXO基础操作之标签</h1>
             
                 <div class="post-meta">
                     
@@ -142,7 +207,7 @@
 
                     
                         <span class="post-time">
-                        📅日期: <a href="#">六月 2, 2024&nbsp;&nbsp;13:38:23</a>
+                        📅日期: <a href="#">六月 2, 2024&nbsp;&nbsp;15:04:43</a>
                         </span>
                     
                 <div>
@@ -150,7 +215,7 @@
                         <span class="post-category">
                         📚类别:
                             
-                                <a href="/categories/%E8%AF%97%E6%AD%8C/">诗歌</a>
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA/">博客创建</a>
                             
                         </span>
                     
@@ -159,11 +224,25 @@
         </header>
 
         <div class="post-content">
-            <p>上大学后偶然间再翻看之前高中的一些记录，翻到了在高中某个晚自习闲来无事写的几首诗词，想想那时候应该是我头脑内文学储备的高光时刻，之后再也写不出那样的东西，想着可以记录下来(业余水平，没有专业学过任何平仄之类的东西，文笔不好，请多见谅)</p>
-<p><font size=6 face="华文新魏"><center> 兰陵王 </center></font><br><font size=5 face="华文新魏">&emsp;&emsp;销烟处，鬼面一带，谁不惧我况不在，震动京城麦。 将归来，百姓戴，唯有兄弟把情猜。       已无心，既濯黄河，总角之戏亲不在，骂你我无赖。若无计，以死待，悲歌一奏入棺材，留下世人哀。</font></p>
-<img src="/pic/poem_1.jpg" alt="img" width="500">
-<!-- ![这里是张图片喔](/pic/poem_1.jpg) -->
-<div style="text-align: right;"><font size=5 face="华文新魏">词写于2020年12月26日</font></div>
+            <p>经过好几天的试错与学习，终于是把博客有关标签的一些基础搞明白了，终于进行“二创”啦，事不宜迟，请看下文！</p>
+<h2 id="如何给一篇新文章加标签"><a href="#如何给一篇新文章加标签" class="headerlink" title="如何给一篇新文章加标签"></a>如何给一篇新文章加标签</h2><!-- &#10084; -->
+<p>当用以下代码创建了一篇新文章后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new ...（...代表你要添加的博客标题与文件名）</span><br></pre></td></tr></table></figure>
+<p>进入…的markdown文件后可以看到标签处是空的<br><img src="/pic/hexo_1/tag_1.png" alt="img" width="500"><br>加入自己需要的标签<br><img src="/pic/hexo_1/tag_2.png" alt="img" width="500"><br>如果需要添加有<strong>多个标签</strong>，则需要用一下语法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tags: [hexo,markdown,标签]</span><br></pre></td></tr></table></figure>
+<p>效果图如下:<br><img src="/pic/hexo_1/tag_3.png" alt="img" width="500"></p>
+<h2 id="如何修改标签前的＃"><a href="#如何修改标签前的＃" class="headerlink" title="如何修改标签前的＃"></a>如何修改标签前的＃</h2><p>按照路径打开<code>themes\Chic\layout\_page\post.ejs</code>找到如下代码:<br><img src="/pic/hexo_1/tag_4.png" alt="img" width="500"></p>
+<p>修改其中的<code>#</code>即可<br><img src="/pic/hexo_1/tag_5.png" alt="img" width="500"></p>
+<p>效果如下:<br><img src="/pic/hexo_1/tag_6.png" alt="img" width="500"></p>
+<h2 id="如何更改标签页内的标题及点进去的字样"><a href="#如何更改标签页内的标题及点进去的字样" class="headerlink" title="如何更改标签页内的标题及点进去的字样"></a>如何更改标签页内的标题及点进去的字样</h2><p>按照路径打开<code>themes\Chic\layout\tag.ejs</code>找到如下代码，把其中的tag cloud改成自己想要的即可:<br><img src="/pic/hexo_1/tag_7.png" alt="img" width="500"></p>
+<p>效果如下:<br><img src="/pic/hexo_1/tag_10.png" alt="img" width="500"></p>
+<p>虽然修改<code>post title</code>的内容，但是点进去标签后的详情页面还会出现tags的字样<br><img src="/pic/hexo_1/tag_8.png" alt="img" width="500"></p>
+<p>按照路径打开<code>themes\Chic\layout\_page\tag.ejs</code>找到如下代码，修改其中的tags即可:</p>
+<img src="/pic/hexo_1/tag_9.png" alt="img" width="500">
+
+<p>效果如下:<br><img src="/pic/hexo_1/tag_11.png" alt="img" width="500"></p>
+<p><strong>(新手第一次写博客，如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
         </div>
 
         
@@ -191,7 +270,11 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E8%AF%97%E6%AD%8C/">🔖诗歌</a>
+                        <a href="/tags/hexo/">🔖hexo</a>
+                    
+                        <a href="/tags/markdown/">🔖markdown</a>
+                    
+                        <a href="/tags/%E6%A0%87%E7%AD%BE/">🔖标签</a>
                     
                         
                 </span>
@@ -204,10 +287,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/06/02/hexo_1/">HEXO基础操作之标签</a>
             
-            
-            <a class="next" rel="next" href="/2024/05/23/fpga_1/">基于紫光同创FPGA的RAM乒乓操作</a>
+            <a class="next" rel="next" href="/2024/06/02/poem_1/">自写诗歌之《兰陵王》</a>
             
         </section>
 
