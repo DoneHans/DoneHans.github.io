@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="He JIAHUI">
+
+
+
+
+
+<title>语音增强性能评估相关函数（粉噪声、babble噪声、PESQ、STOI） | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">语音增强性能评估相关函数（粉噪声、babble噪声、PESQ、STOI）</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">He JIAHUI</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">六月 12, 2024&nbsp;&nbsp;10:56:00</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/%E6%99%BA%E8%83%BD%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/">智能语音处理</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>完成智能语音处理有关语音增强的实验后，发现周围同学找不到一些MATLAB有关的语音增强函数，为了可以方便后来人，我把我从GITHUB以及CSDN上“收罗”到的函数在这里进行分享，事不宜迟，请看下文！</p>
+<h2 id="给一段干净音频加粉红噪声"><a href="#给一段干净音频加粉红噪声" class="headerlink" title="给一段干净音频加粉红噪声"></a>给一段干净音频加粉红噪声</h2><p>MATLAB官方工具箱中有一个关于音频的强大工具箱Audio Toolbox，里面自带了一个pinknoise的函数：</p>
+<img src="/pic/audio_1/image.png" alt="img" width="500">
+
+<p>因此我们只要借助这个函数生成有关的加噪函数即可:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%音频加粉色噪声函数</span><br><span class="line"><span class="keyword">function</span> noisyMainStreet = add_pinknoise(audioIn,snr)</span><br><span class="line">noise = pinknoise(size(audioIn),<span class="string">&#x27;like&#x27;</span>,audioIn);%借助matlab内置函数生成一个SNR未知的粉色噪声</span><br><span class="line">noisePower = <span class="built_in">sum</span>(noise.^2,1)/size(noise,1);%计算噪声能量</span><br><span class="line">signalPower = <span class="built_in">sum</span>(audioIn.^2,1)/size(audioIn,1);%计算音频能量</span><br><span class="line">desiredSNR=snr;%期望设计信噪比</span><br><span class="line">scaleFactor = sqrt(signalPower./(noisePower*(10^(desiredSNR/10))));%计算因子</span><br><span class="line">noise = noise.*scaleFactor;%调整噪声能量</span><br><span class="line">noisyMainStreet = noise + audioIn;%噪声合成</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>输入参数<code>audioIn</code>是不带噪声的原音频，输入参数<code>snr</code>是你期望加入噪声的信噪比，接下来展示如何使用这段函数:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[audio,fs]  = audioread(<span class="string">&quot;F1.wav&quot;</span>);</span><br><span class="line">audio = audio - mean(audio);%消除直流</span><br><span class="line">audio = audio/max(abs(audio));%归一化</span><br><span class="line">N = length(audio); %语音长度</span><br><span class="line">time = (0:N-1)/fs;  %设计时间刻度</span><br><span class="line"></span><br><span class="line">audio_withpinknoise = add_pinknoise(audio,0);</span><br><span class="line">snr1 = round(SNR_singlech(audio,audio_withpinknoise));</span><br><span class="line">disp(snr1)</span><br><span class="line"></span><br><span class="line">plot(time,audio_withpinknoise,<span class="string">&#x27;k&#x27;</span>); grid; axis tight;</span><br><span class="line">title([<span class="string">&#x27;带粉噪声语音 输入信噪比=&#x27;</span> num2str(snr1) <span class="string">&#x27;dB&#x27;</span>]); ylabel(<span class="string">&#x27;幅值&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结果如下所示:</p>
+<img src="/pic/audio_1/image-1.png" alt="img" width="500">
+
+<h2 id="给一段干净音频加babble噪声（背景多人人声）"><a href="#给一段干净音频加babble噪声（背景多人人声）" class="headerlink" title="给一段干净音频加babble噪声（背景多人人声）"></a>给一段干净音频加babble噪声（背景多人人声）</h2><p>借助上述生成粉噪相同的思路我们就能够生成babble噪声，但问题是系统并没有自带生成babble背景多人人声噪声，因此我们换个思路，把该带有该噪声的数字音频数据导入(load)进Matlab中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">%音频加babble噪声函数</span><br><span class="line"><span class="keyword">function</span> noisyMainStreet = add_babblenoise(audioIn,fs,snr)</span><br><span class="line">%导入babble文件</span><br><span class="line">load babble.mat;</span><br><span class="line">babble_fs = 19980;</span><br><span class="line">babble_resamp_8k = resample(babble,fs,babble_fs);</span><br><span class="line">desiredSNR=snr;%期望设计信噪比</span><br><span class="line">Nx = length(audioIn);% 求出信号长</span><br><span class="line">noise = babble_resamp_8k(1:Nx);   %截取babble噪声片段</span><br><span class="line"></span><br><span class="line">noisePower = <span class="built_in">sum</span>(noise.^2,1)/size(noise,1);%计算噪声能量</span><br><span class="line">signalPower = <span class="built_in">sum</span>(audioIn.^2,1)/size(audioIn,1);%计算音频能量</span><br><span class="line">scaleFactor = sqrt(signalPower./(noisePower*(10^(desiredSNR/10))));%计算因子</span><br><span class="line">noise = noise.*scaleFactor;%调整噪声能量</span><br><span class="line">noisyMainStreet = noise + audioIn;%噪声合成</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>输入参数<code>audioIn</code>是不带噪声的原音频，输入参数<code>snr</code>是你期望加入噪声的信噪比，输入参数<code>fs</code>是原音频的频率，接下来展示如何使用这段函数:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[audio,fs]  = audioread(<span class="string">&quot;F1.wav&quot;</span>);</span><br><span class="line">audio = audio - mean(audio);%消除直流</span><br><span class="line">audio = audio/max(abs(audio));%归一化</span><br><span class="line">N = length(audio); %语音长度</span><br><span class="line">time = (0:N-1)/fs;  %设计时间刻度</span><br><span class="line"></span><br><span class="line">audio_withbabblenoise = add_babblenoise(audio,fs,0);</span><br><span class="line">snr1 = SNR_singlech(audio,audio_withbabblenoise);</span><br><span class="line">disp(snr1)</span><br><span class="line"></span><br><span class="line">plot(time,audio_withbabblenoise,<span class="string">&#x27;k&#x27;</span>); grid; axis tight;</span><br><span class="line">title([<span class="string">&#x27;带粉噪声语音 输入信噪比=&#x27;</span> num2str(snr1) <span class="string">&#x27;dB&#x27;</span>]); ylabel(<span class="string">&#x27;幅值&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>结果如下所示:</p>
+<img src="/pic/audio_1/image-2.png" alt="img" width="500">
+
+<h2 id="STOI函数"><a href="#STOI函数" class="headerlink" title="STOI函数"></a>STOI函数</h2><p>STOI(短时语音可懂度),这部分代码也是借助GITHUB链接:<br><a target="_blank" rel="noopener" href="https://github.com/IMLHF/Speech-Enhancement-Measures/blob/master/stoi.m">STOI函数</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> d = STOI(x, y, fs_signal)</span><br><span class="line">%   d = stoi(x, y, fs_signal) returns the output of the short-time</span><br><span class="line">%   objective intelligibility (STOI) measure described <span class="keyword">in</span> [1, 2], <span class="built_in">where</span> x </span><br><span class="line">%   and y denote the clean and processed speech, respectively, with sample</span><br><span class="line">%   rate fs_signal <span class="keyword">in</span> Hz. The output d is expected to have a monotonic </span><br><span class="line">%   relation with the subjective speech-intelligibility, <span class="built_in">where</span> a higher d </span><br><span class="line">%   denotes better intelligible speech. See [1, 2] <span class="keyword">for</span> more details.</span><br><span class="line">%</span><br><span class="line">%   References:</span><br><span class="line">%      [1] C.H.Taal, R.C.Hendriks, R.Heusdens, J.Jensen <span class="string">&#x27;A Short-Time</span></span><br><span class="line"><span class="string">%      Objective Intelligibility Measure for Time-Frequency Weighted Noisy</span></span><br><span class="line"><span class="string">%      Speech&#x27;</span>, ICASSP 2010, Texas, Dallas.</span><br><span class="line">%</span><br><span class="line">%      [2] C.H.Taal, R.C.Hendriks, R.Heusdens, J.Jensen <span class="string">&#x27;An Algorithm for </span></span><br><span class="line"><span class="string">%      Intelligibility Prediction of Time-Frequency Weighted Noisy Speech&#x27;</span>, </span><br><span class="line">%      IEEE Transactions on Audio, Speech, and Language Processing, 2011. </span><br><span class="line">%</span><br><span class="line">%</span><br><span class="line">% Copyright 2009: Delft University of Technology, Signal &amp; Information</span><br><span class="line">% Processing Lab. The software is free <span class="keyword">for</span> non-commercial use. This program</span><br><span class="line">% comes WITHOUT ANY WARRANTY.</span><br><span class="line">%</span><br><span class="line">%</span><br><span class="line">%</span><br><span class="line">% Updates:</span><br><span class="line">% 2011-04-26 Using the more efficient <span class="string">&#x27;taa_corr&#x27;</span> instead of <span class="string">&#x27;corr&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> length(x)~=length(y)</span><br><span class="line">    error(<span class="string">&#x27;x and y should have the same length&#x27;</span>);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% initialization</span><br><span class="line">x           = x(:);                             % clean speech column vector</span><br><span class="line">y           = y(:);                             % processed speech column vector</span><br><span class="line"></span><br><span class="line">fs          = 10000;                            % sample rate of proposed intelligibility measure</span><br><span class="line">N_frame    	= 256;                              % window support</span><br><span class="line">K           = 512;                              % FFT size</span><br><span class="line">J           = 15;                               % Number of 1/3 octave bands</span><br><span class="line">mn          = 150;                              % Center frequency of first 1/3 octave band <span class="keyword">in</span> Hz.</span><br><span class="line">H           = thirdoct(fs, K, J, mn);           % Get 1/3 octave band matrix</span><br><span class="line">N           = 30;                               % Number of frames <span class="keyword">for</span> intermediate intelligibility measure (Length analysis window)</span><br><span class="line">Beta        = -15;                           	% lower SDR-bound</span><br><span class="line">dyn_range   = 40;                               % speech dynamic range</span><br><span class="line"></span><br><span class="line">% resample signals <span class="keyword">if</span> other samplerate is used than fs</span><br><span class="line"><span class="keyword">if</span> fs_signal ~= fs</span><br><span class="line">    x	= resample(x, fs, fs_signal);</span><br><span class="line">    y 	= resample(y, fs, fs_signal);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% remove silent frames</span><br><span class="line">[x y] = removeSilentFrames(x, y, dyn_range, N_frame, N_frame/2);</span><br><span class="line"></span><br><span class="line">% apply 1/3 octave band TF-decomposition</span><br><span class="line">x_hat     	= stdft(x, N_frame, N_frame/2, K); 	% apply short-time DFT to clean speech</span><br><span class="line">y_hat     	= stdft(y, N_frame, N_frame/2, K); 	% apply short-time DFT to processed speech</span><br><span class="line"></span><br><span class="line">x_hat       = x_hat(:, 1:(K/2+1)).<span class="string">&#x27;;         	% take clean single-sided spectrum</span></span><br><span class="line"><span class="string">y_hat       = y_hat(:, 1:(K/2+1)).&#x27;</span>;        	% take processed single-sided spectrum</span><br><span class="line"></span><br><span class="line">X           = zeros(J, size(x_hat, 2));         % init memory <span class="keyword">for</span> clean speech 1/3 octave band TF-representation </span><br><span class="line">Y           = zeros(J, size(y_hat, 2));         % init memory <span class="keyword">for</span> processed speech 1/3 octave band TF-representation </span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i = 1:size(x_hat, 2)</span><br><span class="line">    X(:, i)	= sqrt(H*abs(x_hat(:, i)).^2);      % apply 1/3 octave bands as described <span class="keyword">in</span> Eq.(1) [1]</span><br><span class="line">    Y(:, i)	= sqrt(H*abs(y_hat(:, i)).^2);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% loop al segments of length N and obtain intermediate intelligibility measure <span class="keyword">for</span> all TF-regions</span><br><span class="line">d_interm  	= zeros(J, length(N:size(X, 2)));                               % init memory <span class="keyword">for</span> intermediate intelligibility measure</span><br><span class="line">c           = 10^(-Beta/20);                                                % constant <span class="keyword">for</span> clipping procedure</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> m = N:size(X, 2)</span><br><span class="line">    X_seg  	= X(:, (m-N+1):m);                                              % region with length N of clean TF-units <span class="keyword">for</span> all j</span><br><span class="line">    Y_seg  	= Y(:, (m-N+1):m);                                              % region with length N of processed TF-units <span class="keyword">for</span> all j</span><br><span class="line">    alpha   = sqrt(<span class="built_in">sum</span>(X_seg.^2, 2)./sum(Y_seg.^2, 2));                     % obtain scale <span class="built_in">factor</span> <span class="keyword">for</span> normalizing processed TF-region <span class="keyword">for</span> all j</span><br><span class="line">    aY_seg 	= Y_seg.*repmat(alpha, [1 N]);                               	% obtain \alpha*Y_j(n) from Eq.(2) [1]</span><br><span class="line">    <span class="keyword">for</span> j = 1:J</span><br><span class="line">      	Y_prime             = min(aY_seg(j, :), X_seg(j, :)+X_seg(j, :)*c); % apply clipping from Eq.(3)   	</span><br><span class="line">        d_interm(j, m-N+1)  = taa_corr(X_seg(j, :).<span class="string">&#x27;, Y_prime(:));          % obtain correlation coeffecient from Eq.(4) [1]</span></span><br><span class="line"><span class="string">    end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">d = mean(d_interm(:));                                                      % combine all intermediate intelligibility measures as in Eq.(4) [1]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">%%</span></span><br><span class="line"><span class="string">function  [A cf] = thirdoct(fs, N_fft, numBands, mn)</span></span><br><span class="line"><span class="string">%   [A CF] = THIRDOCT(FS, N_FFT, NUMBANDS, MN) returns 1/3 octave band matrix</span></span><br><span class="line"><span class="string">%   inputs:</span></span><br><span class="line"><span class="string">%       FS:         samplerate </span></span><br><span class="line"><span class="string">%       N_FFT:      FFT size</span></span><br><span class="line"><span class="string">%       NUMBANDS:   number of bands</span></span><br><span class="line"><span class="string">%       MN:         center frequency of first 1/3 octave band</span></span><br><span class="line"><span class="string">%   outputs:</span></span><br><span class="line"><span class="string">%       A:          octave band matrix</span></span><br><span class="line"><span class="string">%       CF:         center frequencies</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">f               = linspace(0, fs, N_fft+1);</span></span><br><span class="line"><span class="string">f               = f(1:(N_fft/2+1));</span></span><br><span class="line"><span class="string">k               = 0:(numBands-1); </span></span><br><span class="line"><span class="string">cf              = 2.^(k/3)*mn;</span></span><br><span class="line"><span class="string">fl              = sqrt((2.^(k/3)*mn).*2.^((k-1)/3)*mn);</span></span><br><span class="line"><span class="string">fr              = sqrt((2.^(k/3)*mn).*2.^((k+1)/3)*mn);</span></span><br><span class="line"><span class="string">A               = zeros(numBands, length(f));</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for i = 1:(length(cf))</span></span><br><span class="line"><span class="string">    [a b]                   = min((f-fl(i)).^2);</span></span><br><span class="line"><span class="string">    fl(i)                   = f(b);</span></span><br><span class="line"><span class="string">    fl_ii                   = b;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	[a b]                   = min((f-fr(i)).^2);</span></span><br><span class="line"><span class="string">    fr(i)                   = f(b);</span></span><br><span class="line"><span class="string">    fr_ii                   = b;</span></span><br><span class="line"><span class="string">    A(i,fl_ii:(fr_ii-1))	= 1;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">rnk         = sum(A, 2);</span></span><br><span class="line"><span class="string">numBands  	= find((rnk(2:end)&gt;=rnk(1:(end-1))) &amp; (rnk(2:end)~=0)~=0, 1, &#x27;</span>last<span class="string">&#x27; )+1;</span></span><br><span class="line"><span class="string">A           = A(1:numBands, :);</span></span><br><span class="line"><span class="string">cf          = cf(1:numBands);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">%%</span></span><br><span class="line"><span class="string">function x_stdft = stdft(x, N, K, N_fft)</span></span><br><span class="line"><span class="string">%   X_STDFT = X_STDFT(X, N, K, N_FFT) returns the short-time</span></span><br><span class="line"><span class="string">%	hanning-windowed dft of X with frame-size N, overlap K and DFT size</span></span><br><span class="line"><span class="string">%   N_FFT. The columns and rows of X_STDFT denote the frame-index and</span></span><br><span class="line"><span class="string">%   dft-bin index, respectively.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">frames      = 1:K:(length(x)-N);</span></span><br><span class="line"><span class="string">x_stdft     = zeros(length(frames), N_fft);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">w           = hanning(N);</span></span><br><span class="line"><span class="string">x           = x(:);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for i = 1:length(frames)</span></span><br><span class="line"><span class="string">    ii              = frames(i):(frames(i)+N-1);</span></span><br><span class="line"><span class="string">	x_stdft(i, :) 	= fft(x(ii).*w, N_fft);</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">%%</span></span><br><span class="line"><span class="string">function [x_sil y_sil] = removeSilentFrames(x, y, range, N, K)</span></span><br><span class="line"><span class="string">%   [X_SIL Y_SIL] = REMOVESILENTFRAMES(X, Y, RANGE, N, K) X and Y</span></span><br><span class="line"><span class="string">%   are segmented with frame-length N and overlap K, where the maximum energy</span></span><br><span class="line"><span class="string">%   of all frames of X is determined, say X_MAX. X_SIL and Y_SIL are the</span></span><br><span class="line"><span class="string">%   reconstructed signals, excluding the frames, where the energy of a frame</span></span><br><span class="line"><span class="string">%   of X is smaller than X_MAX-RANGE</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">x       = x(:);</span></span><br><span class="line"><span class="string">y       = y(:);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">frames  = 1:K:(length(x)-N);</span></span><br><span class="line"><span class="string">w       = hanning(N);</span></span><br><span class="line"><span class="string">msk     = zeros(size(frames));</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for j = 1:length(frames)</span></span><br><span class="line"><span class="string">    jj      = frames(j):(frames(j)+N-1);</span></span><br><span class="line"><span class="string">    msk(j) 	= 20*log10(norm(x(jj).*w)./sqrt(N));</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">msk     = (msk-max(msk)+range)&gt;0;</span></span><br><span class="line"><span class="string">count   = 1;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">x_sil   = zeros(size(x));</span></span><br><span class="line"><span class="string">y_sil   = zeros(size(y));</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for j = 1:length(frames)</span></span><br><span class="line"><span class="string">    if msk(j)</span></span><br><span class="line"><span class="string">        jj_i            = frames(j):(frames(j)+N-1);</span></span><br><span class="line"><span class="string">        jj_o            = frames(count):(frames(count)+N-1);</span></span><br><span class="line"><span class="string">        x_sil(jj_o)     = x_sil(jj_o) + x(jj_i).*w;</span></span><br><span class="line"><span class="string">        y_sil(jj_o)  	= y_sil(jj_o) + y(jj_i).*w;</span></span><br><span class="line"><span class="string">        count           = count+1;</span></span><br><span class="line"><span class="string">    end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">x_sil = x_sil(1:jj_o(end));</span></span><br><span class="line"><span class="string">y_sil = y_sil(1:jj_o(end));</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">%%</span></span><br><span class="line"><span class="string">function rho = taa_corr(x, y)</span></span><br><span class="line"><span class="string">%   RHO = TAA_CORR(X, Y) Returns correlation coeffecient between column</span></span><br><span class="line"><span class="string">%   vectors x and y. Gives same results as &#x27;</span>corr<span class="string">&#x27; from statistics toolbox.</span></span><br><span class="line"><span class="string">xn    	= x-mean(x);</span></span><br><span class="line"><span class="string">xn  	= xn/sqrt(sum(xn.^2));</span></span><br><span class="line"><span class="string">yn   	= y-mean(y);</span></span><br><span class="line"><span class="string">yn    	= yn/sqrt(sum(yn.^2));</span></span><br><span class="line"><span class="string">rho   	= sum(xn.*yn);</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="PESQ函数"><a href="#PESQ函数" class="headerlink" title="PESQ函数"></a>PESQ函数</h2><p>由于给出的PESQ代码过于长，在这里粘贴影响篇幅，因此给出GITHUB链接，读者自行前往链接复制粘贴。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/IMLHF/Speech-Enhancement-Measures/blob/master/comp_pesq.m">PESQ函数</a></p>
+<p><strong>(新手第一次写博客，如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%B2%89%E5%99%AA%E5%A3%B0/">🔖粉噪声</a>
+                    
+                        <a href="/tags/babble%E5%99%AA%E5%A3%B0/">🔖babble噪声</a>
+                    
+                        <a href="/tags/PESQ/">🔖PESQ</a>
+                    
+                        <a href="/tags/STOI/">🔖STOI</a>
+                    
+                        <a href="/tags/MATLAB/">🔖MATLAB</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/06/02/hexo_3/">基于Gitalk的博客评论区部署及有关问题解决</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© He JIAHUI | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
