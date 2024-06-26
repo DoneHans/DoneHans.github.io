@@ -254,6 +254,14 @@
       overflow: hidden;
       white-space: nowrap;
     }
+
+        /* 媒体查询，用于手机端 */
+    @media (max-width: 768px) {
+      .card {
+        width: 90%; /* 在手机端，卡片宽度为页面宽度的90% */
+        float: none; /* 移除浮动，使卡片堆叠 */
+      }
+    }
 </style>
             </div>
             <footer id="footer" class="footer">
