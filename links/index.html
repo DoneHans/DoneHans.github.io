@@ -130,106 +130,131 @@
     }
 </script>
             <div class="main">
-                <div class="container">
-    <article class="post-wrap page">
+                <!-- <div class="container">
+    <div class="post-wrap">
+        <h1 class="post-title">
+            🔗友链
+        </h1>
         
-        <h2 class="post-title">🔗友链</h2>
-        
-        <section class="post-content">
-            <div class="post-body">
-   <div id="links">
-      <style>
-         .links-content{
-         margin-top:1rem;
-         }
-         .link-navigation::after {
-         content: " ";
-         display: block;
-         clear: both;
-         }
-         .card {
-         width: 45%;
-         font-size: 1rem;
-         padding: 10px 20px;
-         border-radius: 4px;
-         transition-duration: 0.15s;
-         margin-bottom: 1rem;
-         display:flex;
-         }
-         .card:nth-child(odd) {
-         float: left;
-         }
-         .card:nth-child(even) {
-         float: right;
-         }
-         .card:hover {
-         transform: scale(1.1);
-         box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
-         }
-         .card a {
-         border:none;
-         }
-         .card .ava {
-         width: 3rem!important;
-         height: 3rem!important;
-         margin:0!important;
-         margin-right: 1em!important;
-         border-radius:4px;
-         }
-         .card .card-header {
-         font-style: italic;
-         overflow: hidden;
-         width: 100%;
-         }
-         .card .card-header a {
-         font-style: normal;
-         color: #2bbc8a;
-         font-weight: bold;
-         text-decoration: none;
-         }
-         .card .card-header a:hover {
-         color: #d480aa;
-         text-decoration: none;
-         }
-         .card .card-header .info {
-         font-style:normal;
-         color:#a3a3a3;
-         font-size:14px;
-         min-width: 0;
-         overflow: hidden;
-         white-space: nowrap;
-         }
-      </style>
-      <div class="links-content">
-         <div class="link-navigation">
-            <div class="card">
-               <img class="ava" src="/pic/friendlink/photo_1.jpg" />
-               <div class="card-header">
-                  <div>
-                     <a target="_blank" rel="noopener" href="https://zhangkeliang0627.github.io/">Hugo@kkl's</a>
-                  </div>
-                  <div class="info">你要快乐，你要热爱生活！ </div>
-               </div>
+            <div class="friend-link">
+                <a href="https://zhangkeliang0627.github.io/" target="_blank" title="">
+                    <div class="friend-name">
+                        Hugo@kkl&#39;s
+                    </div>
+                </a>
             </div>
-         </div>
-      </div>
-   </div>
+            
+            <div class="friend-link">
+                <a href="https://donehans.github.io/" target="_blank" title="">
+                    <div class="friend-name">
+                        Hans&#39;BLOOOOG
+                    </div>
+                </a>
+            </div>
+            
+    </div>
+</div> -->
+
+<div class="container">
+    <div class="post-wrap links">
+        <h1 class="post-title">
+            🔗友链
+        </h1>
+        
+        <div class="links-content">
+            <div class="link-navigation">
+                    <div class="card">
+                        <img class="ava" src="/pic/friendlink/photo_1.jpg" />
+                        <div class="card-header">
+                        <div>
+                            <a href="https://zhangkeliang0627.github.io/" target="_blank">Hugo@kkl&#39;s</a>
+                        </div>
+                        <div class="info">你要快乐，你要热爱生活！</div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        
+        <div class="links-content">
+            <div class="link-navigation">
+                    <div class="card">
+                        <img class="ava" src="/pic/friendlink/photo_2.jpg" />
+                        <div class="card-header">
+                        <div>
+                            <a href="https://donehans.github.io/" target="_blank">Hans&#39;BLOOOOG</a>
+                        </div>
+                        <div class="info">好好学习天天向上！</div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        
+
+    </div>
 </div>
 
-<!-- 如果有小伙伴请求添加友链，你只需要在上述代码的技术上添加如下代码块即可：     <div class="card">
-               <img class="ava" src="https://laosu.ml/images/laosu_wx.jpg" />
-               <div class="card-header">
-                  <div>
-                     <a target="_blank" rel="noopener" href="https://laosu.ml/">杨浦老苏</a>
-                  </div>
-                  <div class="info">聚沙成塔，集腋成裘 </div>
-               </div>
-            </div>
- -->
-        </section>
-    </article>
-</div>
-
+<style>
+    .links-content{
+      margin-top:1rem;
+    }
+    .link-navigation::after {
+      content: " ";
+      display: block;
+      clear: both;
+    }
+    .card {
+      width: 45%;
+      font-size: 1rem;
+      padding: 10px 20px;
+      border-radius: 4px;
+      transition-duration: 0.15s;
+      margin-bottom: 1rem;
+      display:flex;
+    }
+    .card:nth-child(odd) {
+      float: left;
+    }
+    .card:nth-child(even) {
+      float: right;
+    }
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+    }
+    .card a {
+      border:none;
+    }
+    .card .ava {
+      width: 3rem!important;
+      height: 3rem!important;
+      margin:0!important;
+      margin-right: 1em!important;
+      border-radius:4px;
+    }
+    .card .card-header {
+      font-style: italic;
+      overflow: hidden;
+      width: 100%;
+    }
+    .card .card-header a {
+      font-style: normal;
+      color: #2bbc8a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .card .card-header a:hover {
+      color: #d480aa;
+      text-decoration: none;
+    }
+    .card .card-header .info {
+      font-style:normal;
+      color:#a3a3a3;
+      font-size:14px;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+</style>
             </div>
             <footer id="footer" class="footer">
     <div class="copyright">

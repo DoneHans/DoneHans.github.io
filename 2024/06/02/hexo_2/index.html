@@ -137,9 +137,9 @@
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
     </div>
 </div>
 
@@ -177,7 +177,7 @@
         tocbot.refresh(obj_merge(tocbot_default_config, {
             collapseDepth: expanded ? 1 : DEPTH_MAX
         }));
-        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+        b.innerText = expanded ? '全部展开' : '收起';
     }
 
     function go_top() {
