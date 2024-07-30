@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="He JIAHUI">
+
+
+
+
+
+<title>如何给个人博客网站加一个炫酷的背景？ | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? '全部展开' : '收起';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">如何给个人博客网站加一个炫酷的背景？</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">He JIAHUI</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">七月 30, 2024&nbsp;&nbsp;17:48:21</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA/">博客创建</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>某一天在逛Chic主题issue的时候偶然发现一位大佬的网站背景变成了一些几何线条，而且还会跟随鼠标汇聚和散开，富有科技感，而且这样的线条也给Chic单调的背景增加几分动态的美感，为此，我心动了！事不宜迟，请看下文！</p>
+<p>大佬的博客网站<a target="_blank" rel="noopener" href="https://seperendity.github.io/">CY’s Blog</a></p>
+<h1 id="背景部署"><a href="#背景部署" class="headerlink" title="背景部署"></a>背景部署</h1><h2 id="代码借鉴"><a href="#代码借鉴" class="headerlink" title="代码借鉴"></a>代码借鉴</h2><p>这样复杂而又难懂的代码对于我这个前端小白来说完全手撕出来是不太可能的啦，那我们实现的办法只能是前往大佬<a target="_blank" rel="noopener" href="https://github.com/Seperendity/Seperendity.github.io/blob/main/page/3/index.html">GITHUB</a>主页寻找到关键代码了</p>
+<p>在大佬<code>index.html</code>文件往下翻个几百行后，终于找到了我们需要的背景代码了，关键代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">!</span><br><span class="line"><span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    <span class="keyword">function</span> n(n, e, t) &#123;</span><br><span class="line">        <span class="built_in">return</span> n.getAttribute(e) || t</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> e(n) &#123;</span><br><span class="line">        <span class="built_in">return</span> document.getElementsByTagName(n)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">t</span></span>() &#123;</span><br><span class="line">        var t = e(<span class="string">&quot;script&quot;</span>),</span><br><span class="line">        o = t.length,</span><br><span class="line">        i = t[o - 1];</span><br><span class="line">        <span class="built_in">return</span> &#123;</span><br><span class="line">            l: o,</span><br><span class="line">            z: n(i, <span class="string">&quot;zIndex&quot;</span>, -1),     //置于主页面背后</span><br><span class="line">            o: n(i, <span class="string">&quot;opacity&quot;</span>, .5),     //线条透明度</span><br><span class="line">            c: n(i, <span class="string">&quot;color&quot;</span>, <span class="string">&quot;0,0,0&quot;</span>),  //线条颜色</span><br><span class="line">            n: n(i, <span class="string">&quot;count&quot;</span>, 100)    //线条数量</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">o</span></span>() &#123;</span><br><span class="line">        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,</span><br><span class="line">        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">i</span></span>() &#123;</span><br><span class="line">        r.clearRect(0, 0, a, c);</span><br><span class="line">        var n, e, t, o, m, l;</span><br><span class="line">        s.forEach(<span class="keyword">function</span>(i, x) &#123;</span><br><span class="line">            <span class="keyword">for</span> (i.x += i.xa, i.y += i.ya, i.xa *= i.x &gt; a || i.x &lt; 0 ? -1 : 1, i.ya *= i.y &gt; c || i.y &lt; 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e &lt; u.length; e++) n = u[e],</span><br><span class="line">            null !== n.x &amp;&amp; null !== n.y &amp;&amp; (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l &lt; n.max &amp;&amp; (n === y &amp;&amp; l &gt;= n.max / 2 &amp;&amp; (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = <span class="string">&quot;rgba(&quot;</span> + d.c + <span class="string">&quot;,&quot;</span> + (t + .2) + <span class="string">&quot;)&quot;</span>, r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))</span><br><span class="line">        &#125;),</span><br><span class="line">        x(i)</span><br><span class="line">    &#125;</span><br><span class="line">    var a, c, u, m = document.createElement(<span class="string">&quot;canvas&quot;</span>),</span><br><span class="line">    d = t(),</span><br><span class="line">    l = <span class="string">&quot;c_n&quot;</span> + d.l,</span><br><span class="line">    r = m.getContext(<span class="string">&quot;2d&quot;</span>),</span><br><span class="line">    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||</span><br><span class="line">    <span class="keyword">function</span>(n) &#123;</span><br><span class="line">        window.setTimeout(n, 1e3 / 45)</span><br><span class="line">    &#125;,</span><br><span class="line">    w = Math.random,</span><br><span class="line">    y = &#123;</span><br><span class="line">        x: null,</span><br><span class="line">        y: null,</span><br><span class="line">        max: 2e4</span><br><span class="line">    &#125;;</span><br><span class="line">    m.id = l,</span><br><span class="line">    m.style.cssText = <span class="string">&quot;position:fixed;top:0;left:0;z-index:&quot;</span> + d.z + <span class="string">&quot;;opacity:&quot;</span> + d.o,</span><br><span class="line">    e(<span class="string">&quot;body&quot;</span>)[0].appendChild(m),</span><br><span class="line">    o(),</span><br><span class="line">    window.onresize = o,</span><br><span class="line">    window.onmousemove = <span class="keyword">function</span>(n) &#123;</span><br><span class="line">        n = n || window.event,</span><br><span class="line">        y.x = n.clientX,</span><br><span class="line">        y.y = n.clientY</span><br><span class="line">    &#125;,</span><br><span class="line">    window.onmouseout = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        y.x = null,</span><br><span class="line">        y.y = null</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (var s = [], f = 0; d.n &gt; f; f++) &#123;</span><br><span class="line">        var h = w() * a,</span><br><span class="line">        g = w() * c,</span><br><span class="line">        v = 2 * w() - 1,</span><br><span class="line">        p = 2 * w() - 1;</span><br><span class="line">        s.push(&#123;</span><br><span class="line">            x: h,</span><br><span class="line">            y: g,</span><br><span class="line">            xa: v,</span><br><span class="line">            ya: p,</span><br><span class="line">            max: 6e3</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    u = s.concat([y]),</span><br><span class="line">    setTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        i()</span><br><span class="line">    &#125;,</span><br><span class="line">    100)</span><br><span class="line">&#125; ();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>有了代码后，我们下一步就是部署代码了。</p>
+<h2 id="部署代码"><a href="#部署代码" class="headerlink" title="部署代码"></a>部署代码</h2><p>按照文件路径<code>themes\Chic\layout\_plugins</code>打开，我们创建一个ejs文件<code>background.ejs</code>(这里自己随意命名)，进入编辑文件，把我们上述的代码全部复制粘贴到里面，完成这一步后我们回到<code>layout</code>文件夹，在我们需要的页面加上下面一句代码即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- partial(<span class="string">&quot;/_plugins/background&quot;</span>) %&gt;  </span><br></pre></td></tr></table></figure>
+
+<p>例如我们需要把我们所有文章的背景设置为上述说的，我们就需要把这句话加到<code>post.ejs</code>，如果需要加载page页面、category页面、tag页面…同理只需要编辑相应的<code>ejs文件</code>，加入上述一句代码即可</p>
+<h2 id="夜间模式"><a href="#夜间模式" class="headerlink" title="夜间模式"></a>夜间模式</h2><p>到这一步可以说基本实现开篇的效果了，但是当我打开夜间模式的时候，两眼一黑，模糊的线条与背景融为一体，也就是在夜间模式下，效果还是没出来，下面我们将解决这个问题</p>
+<p>需要解决解决夜间模式下也能看得清楚，我们就需要改变夜间模式下线条的颜色，而线条颜色的定义在<code>function t()函数</code>里面，找到 <code>function t()函数</code>，把函数改为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">t</span></span>() &#123;</span><br><span class="line">        var t = e(<span class="string">&quot;script&quot;</span>),</span><br><span class="line">        o = t.length,</span><br><span class="line">        i = t[o - 1];</span><br><span class="line"></span><br><span class="line">        const theme = document.body.classList.contains(<span class="string">&#x27;dark-theme&#x27;</span>) ? <span class="string">&#x27;dark&#x27;</span> : <span class="string">&#x27;light&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(theme===<span class="string">&quot;dark&quot;</span>)</span><br><span class="line">            color = <span class="string">&quot;255,255,255&quot;</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            color = <span class="string">&quot;0,0,0&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">return</span> &#123;</span><br><span class="line">            l: o,</span><br><span class="line">            z: n(i, <span class="string">&quot;zIndex&quot;</span>, -1),     //置于主页面背后</span><br><span class="line">            o: n(i, <span class="string">&quot;opacity&quot;</span>, .5),     //线条透明度</span><br><span class="line">            c: n(i, <span class="string">&quot;color&quot;</span>, color),  //线条颜色</span><br><span class="line">            n: n(i, <span class="string">&quot;count&quot;</span>, 100)    //线条数量</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>改了这个函数后，原本以为应该能够解决问题了，但是当我按下按键，还是没有改变，需要对页面重新刷新后，才能有效果出来，OK，那我们就做一个识别按到切换按键，就给它来一次页面刷新，代码如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// Update theme when theme switcher is clicked</span><br><span class="line">const toggleDesktop = document.querySelector(<span class="string">&#x27;label[for=&quot;switch_default&quot;]&#x27;</span>);</span><br><span class="line">const toggleMobile = document.querySelector(<span class="string">&#x27;#mobile-toggle-theme&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (toggleDesktop) &#123;</span><br><span class="line">    toggleDesktop.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        location.reload();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (toggleMobile) &#123;</span><br><span class="line">    toggleMobile.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        location.reload();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把这一串代码加到<code>for循环</code>后面即可，至此，已经能够实现这一酷酷的背景了，赶快去试试吧。</p>
+<p><font size=5>[提示]把鼠标放在一个地方不动，稳定后再快速动鼠标，有惊喜哦！</font></p>
+<p><strong>(新手第一次写博客，如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2024 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/hexo/">🔖hexo</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/06/26/hexo-4/">基于HEXO中的Chic主题友链的添加</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", color),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    
+
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+
+
+</script>  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2024 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+         <!-- 访客数量 -->
+          
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<span class="site-uv">
+
+ |<font size=5>👀</font>
+ <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+
+</span>&nbsp;&nbsp;
+
+
+
+
+
+<span class="site-pv">
+
+<font size=4>👣</font>
+
+ <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+
+</span>
+
+  
+        
+        </span>
+    </div>
+</footer>
+
+
+<!-- He JIAHUI -->
+    </div>
+</body>
+
+</html>
