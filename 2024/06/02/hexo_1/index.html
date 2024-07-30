@@ -340,11 +340,18 @@ function() {
         var t = e("script"),
         o = t.length,
         i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
         return {
             l: o,
             z: n(i, "zIndex", -1),     //置于主页面背后
             o: n(i, "opacity", .5),     //线条透明度
-            c: n(i, "color", "0,0,0"),  //线条颜色
+            c: n(i, "color", color),  //线条颜色
             n: n(i, "count", 100)    //线条数量
         }
     }
@@ -361,6 +368,7 @@ function() {
         }),
         x(i)
     }
+
     var a, c, u, m = document.createElement("canvas"),
     d = t(),
     l = "c_n" + d.l,
@@ -375,6 +383,8 @@ function() {
         y: null,
         max: 2e4
     };
+    
+
     m.id = l,
     m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
     e("body")[0].appendChild(m),
@@ -402,12 +412,33 @@ function() {
             max: 6e3
         })
     }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
     u = s.concat([y]),
     setTimeout(function() {
         i()
     },
     100)
 } ();
+
+
 </script>  
             </div>
             <footer id="footer" class="footer">
