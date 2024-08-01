@@ -13,7 +13,7 @@
 
 
 
-<title>404 | Hans&#39;BLOOOOG</title>
+<title>Hans&#39;BLOOOOG</title>
 
 
 
@@ -133,84 +133,64 @@
                 <div class="container">
     <article class="post-wrap page">
         
-        <h2 class="post-title">404</h2>
+        <h2 class="post-title"></h2>
         
         <section class="post-content">
             <!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>404 页面</title>
+<title>GIF图片示例</title>
 <style>
   body, html {
     height: 100%;
     margin: 0;
+    padding: 0;
+  }
+  .gif-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff; /* 可以根据需要调整背景颜色 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100%;
   }
-  .canvas-container {
-    position: relative;
+  .gif-image {
+    /* 设置图片的最大宽度和高度，同时保持宽高比 */
+    max-width: 80%;
+    max-height: 80%;
+    width: 600px;
+    height: 500px;
   }
-  #gif-canvas {
-    position: absolute;
-  }
-  #message {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  #home-button {
-    display: block;
-    margin: 20px auto;
+  .return-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
     text-decoration: none;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
   }
-</style>
+  .container {
+    text-align: center; /* 文本水平居中 */
+  }
+
+<p></style></p>
 </head>
 <body>
-
-<div class="canvas-container">
-  <canvas id="gif-canvas"></canvas>
-  <img id="gif-image" src="https://bu.dusays.com/2023/05/08/645907596997d.gif" alt="GIF Title" style="display: none;">
-</div>
-<div id="message">
-  <h1>404</h1>
-  <p>哎呀，页面找不到了！</p>
-  <a id="home-button" target="_blank" rel="noopener" href="https://donehans.github.io">返回主页</a>
+<div style="text-align: center;" class="container"> <!-- 确保整个容器是居中的 -->
+<P style="font-size: 3em; margin-top:0px;">404 NOT FOUND</p>
 </div>
 
-<script>
-  var canvas = document.getElementById('gif-canvas');
-  var context = canvas.getContext('2d');
+<p style="font-size: 1.2em; margin-top: -10px;">不是哥们，这也能迷路，我只能说: ⬇⬇⬇⬇⬇看下面图片⬇⬇⬇⬇⬇</p>
 
-  var gifImage = document.getElementById('gif-image');
-  var gifWidth = gifImage.width;
-  var gifHeight = gifImage.height;
-  var circleSize = 400; // 圆形区域的大小
+<div class="gif-container">
+  <img class="gif-image" src="https://bu.dusays.com/2023/05/08/645907596997d.gif" alt="GIF Title">
+</div>
+<!-- 返回主页的按钮 -->
 
-  canvas.width = gifWidth;
-  canvas.height = gifHeight;
-
-  function drawCircleMask() {
-    context.clearRect(0, 0, gifWidth, gifHeight);
-    context.beginPath();
-    context.arc(gifWidth / 2, gifHeight / 2, circleSize / 2, 0, 2 * Math.PI);
-    context.clip();
-    context.drawImage(gifImage, 0, 0, gifWidth, gifHeight);
-  }
-
-  gifImage.onload = function() {
-    drawCircleMask();
-    // 如果GIF是动态的，你可能需要在这里添加定时器或动画逻辑
-  };
-</script>
+<div style="display: flex; justify-content: center; padding: 20px;">
+<button class="return-button" onclick="window.location.href='https://donehans.github.io';" role="button">返回主页</button>
+</div>
 
 </body>
 </html>
