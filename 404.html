@@ -13,7 +13,7 @@
 
 
 
-<title>Hans&#39;BLOOOOG</title>
+<title>404 | Hans&#39;BLOOOOG</title>
 
 
 
@@ -133,46 +133,87 @@
                 <div class="container">
     <article class="post-wrap page">
         
-        <h2 class="post-title"></h2>
+        <h2 class="post-title">404</h2>
         
         <section class="post-content">
-            <!-- 
-  本代码由 便宜技术博猫 创建
-  技术支持 QQ:2420083841 www.azpay.cn
-  严禁反编译、逆向等任何形式的侵权行为，违者将追究法律责任
- -->
-<!DOCTYPE html>
-<html lang="en">
+            <!DOCTYPE html>
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <title>404</title>
-
-
-
-    <link rel="stylesheet" href="./404/style/style.css">
-
+<meta charset="UTF-8">
+<title>404 页面</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff; /* 可以根据需要调整背景颜色 */
+  }
+  .canvas-container {
+    position: relative;
+  }
+  #gif-canvas {
+    position: absolute;
+  }
+  #message {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #home-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+</style>
 </head>
 <body>
 
-    <div class="mars"></div>
-    <img src="./404/style/404.svg" class="logo-404">
-    <img src="./404/style/meteor.svg" class="meteor">
-    <p class="title">Oh no!!</p>
-    <p class="subtitle">
-        页面未找到<br>要么请求一个不再在这里的页面。
-    </p>
-    <div align="center">
-        <a class="btn-back" href="#">返回上一页</a>
-    </div>
-    <img src="./404/style/astronaut.svg" class="astronaut">
-    <img src="./404/style/spaceship.svg" class="spaceship">
+<div class="canvas-container">
+  <canvas id="gif-canvas"></canvas>
+  <img id="gif-image" src="https://bu.dusays.com/2023/05/08/645907596997d.gif" alt="GIF Title" style="display: none;">
+</div>
+<div id="message">
+  <h1>404</h1>
+  <p>哎呀，页面找不到了！</p>
+  <a id="home-button" target="_blank" rel="noopener" href="https://donehans.github.io">返回主页</a>
+</div>
 
+<script>
+  var canvas = document.getElementById('gif-canvas');
+  var context = canvas.getContext('2d');
 
-  
+  var gifImage = document.getElementById('gif-image');
+  var gifWidth = gifImage.width;
+  var gifHeight = gifImage.height;
+  var circleSize = 150; // 圆形区域的大小
+
+  canvas.width = gifWidth;
+  canvas.height = gifHeight;
+
+  function drawCircleMask() {
+    context.clearRect(0, 0, gifWidth, gifHeight);
+    context.beginPath();
+    context.arc(gifWidth / 2, gifHeight / 2, circleSize / 2, 0, 2 * Math.PI);
+    context.clip();
+    context.drawImage(gifImage, 0, 0, gifWidth, gifHeight);
+  }
+
+  gifImage.onload = function() {
+    drawCircleMask();
+    // 如果GIF是动态的，你可能需要在这里添加定时器或动画逻辑
+  };
+</script>
 
 </body>
 </html>
-
         </section>
     </article>
 </div>
