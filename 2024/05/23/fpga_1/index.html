@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="He JIAHUI">
+
+
+
+
+
+<title>基于紫光同创FPGA的RAM乒乓操作 | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? '全部展开' : '收起';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基于紫光同创FPGA的RAM乒乓操作</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">He JIAHUI</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">五月 23, 2024&nbsp;&nbsp;13:06:53</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/FPGA/">FPGA</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在参加集创赛过程中，发现国产的FPGA的资料文件非常稀缺，很多东西废了千辛万苦自己把代码手撕出来，为了以防自己会忘了，决定记录下一些自认为比较重要的东西，也方便后来人可以查看。</p>
+<h2 id="模块输入输出"><a href="#模块输入输出" class="headerlink" title="模块输入输出"></a>模块输入输出</h2><p>这里的输入是16位的数字音频信号，当且仅当i_en有效时候，因此后续需要逻辑块(always)对其赋值，输入配置如下:</p>
+<ul>
+<li>输入时钟信号</li>
+<li>输入系统复位信号（0有效）</li>
+<li>输入音频信号有效信号（这个自行更改）</li>
+<li>输入音频信号16位</li>
+<li>读出乒乓操作后的数据</li>
+</ul>
+<h2 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h2><ul>
+<li>IDLE：初始状态，在不工作或复位时就让状态机置为初始状态。</li>
+<li>WRAM1：写RAM1状态。该状态我们开始往RAM1中写入数据，此时由于RAM2中并没有写入数据，所以我们不用对RAM2进行读取。</li>
+<li>WRAM2_RRAM1：写RAM2读RAM1状态，当第一包数据写入完毕之后，马上跳到该状态，将第二包数据写入到RAM2中的同时读出RAM1中的写入的第一包数据。</li>
+<li>WRAM1_RRAM2：写RAM1读RAM2状态。在该状态下我们开始向RAM1中写入第三包数据，此时第三包数据会把第一包数据覆盖，而我们的第一包数据已经读取出来了，并不会使数据丢失。在往RAM1中写入第三包数据的同时，我们读出RAM2中的第二包数据，当读写完成之后，跳回WRAM2_RRAM1状态开始 下一包的数据写入以及读取，如此循环我们就能无缝地将连续的输入数据读取出来了。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">//状态跳转</span><br><span class="line">always @(posedge i_clk or negedge i_rst) begin</span><br><span class="line"><span class="keyword">if</span> (!i_rst) begin</span><br><span class="line">state &lt;= IDLE;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line"><span class="keyword">case</span>(state)</span><br><span class="line">IDLE:begin //空闲</span><br><span class="line"><span class="keyword">if</span> (wea == 1<span class="string">&#x27;b1) begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM1; </span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">state &lt;= IDLE;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">WRAM1:begin //写R1</span></span><br><span class="line"><span class="string">if ((wea == 1&#x27;</span>b0)&amp;&amp;(web == 1<span class="string">&#x27;b1)) begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM2_RRAM1; </span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM1;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">WRAM2_RRAM1:begin //读R1，写R2</span></span><br><span class="line"><span class="string">if ((wea == 1&#x27;</span>b1)&amp;&amp;(web == 1<span class="string">&#x27;b0))begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM1_RRAM2;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM2_RRAM1;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">WRAM1_RRAM2:begin //写R1，读R2</span></span><br><span class="line"><span class="string">if ((wea == 1&#x27;</span>b0)&amp;&amp;(web == 1<span class="string">&#x27;b1))begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM2_RRAM1;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">state &lt;= WRAM1_RRAM2;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">default:begin</span></span><br><span class="line"><span class="string">state &lt;= IDLE;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">endcase</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br></pre></td></tr></table></figure>
+<h2 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h2><p>wea和web是ram的使能，有的ram有读使能和写使能，这里做了简化，使能为1就写，使能为0就读。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//组合逻辑</span><br><span class="line">assign wea = ((ram_cnt &lt;= <span class="number">9</span>&#x27;d255)&amp;&amp;(ena == <span class="number">1</span>&#x27;b1)) ? 1 : 0;</span><br><span class="line">assign web = ~wea;</span><br></pre></td></tr></table></figure>
+<p>上述代码搭配计数器就可以实现一半时序为读使能一半时序为写使能。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//读写状态计数器</span><br><span class="line">always @(posedge i_clk or negedge i_rst) begin</span><br><span class="line"><span class="keyword">if</span> (!i_rst) begin</span><br><span class="line">ram_cnt &lt;= 9<span class="string">&#x27;d0;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else if(ram_cnt &lt; 9&#x27;</span>d511)begin</span><br><span class="line">ram_cnt &lt;= ram_cnt + 1<span class="string">&#x27;b1;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">ram_cnt &lt;= 9&#x27;</span>d0;</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">//读写地址计数器</span><br><span class="line">always @(posedge i_clk or negedge i_rst) begin</span><br><span class="line"><span class="keyword">if</span> (!i_rst) begin</span><br><span class="line">ram_addr &lt;= 9<span class="string">&#x27;d0;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else if(ram_addr &lt; 9&#x27;</span>d255)begin</span><br><span class="line">ram_addr &lt;= ram_addr + 1<span class="string">&#x27;b1;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">ram_addr &lt;= 9&#x27;</span>d0;</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h2 id="RAM配置"><a href="#RAM配置" class="headerlink" title="RAM配置"></a>RAM配置</h2><p>既然是乒乓操作，必然需要两片空间可以交换读取的，这里选取了RAM，配置如下:</p>
+<ul>
+<li>写数据16位（即[15:0]）</li>
+<li>地址9位（即[8:0]）</li>
+<li>输入时钟信号i_clk</li>
+<li>启动信号wea or web(这里配置为！rst,即不复位有效，rst是0的时候系统复位)</li>
+<li>读数据信号16位(即[15:0])</li>
+</ul>
+<h2 id="整体实现代码"><a href="#整体实现代码" class="headerlink" title="整体实现代码"></a>整体实现代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line">module ram_in_out(</span><br><span class="line">input i_clk /*synthesis PAP_MARK_DEBUG=<span class="string">&quot;ture&quot;</span>*/,</span><br><span class="line">inout i_rst,</span><br><span class="line">input i_en /*synthesis PAP_MARK_DEBUG=<span class="string">&quot;1&quot;</span>*/,//左声道或右声道有效</span><br><span class="line">input signed [15:0] i_data_x/*synthesis PAP_MARK_DEBUG=<span class="string">&quot;1&quot;</span>*/,//只考虑左声道或右声道</span><br><span class="line">output [15:0] o_data_y /*synthesis PAP_MARK_DEBUG=<span class="string">&quot;1&quot;</span>*/</span><br><span class="line">   );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameter HHWS = 10<span class="string">&#x27;b1_0000_0000;//256没用到</span></span><br><span class="line"><span class="string">wire wea/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">wire web/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*************************寄存器****************************/</span></span><br><span class="line"><span class="string">reg signed [15:0] r_outdata_y;//结果寄存器</span></span><br><span class="line"><span class="string">//读写状态计数器</span></span><br><span class="line"><span class="string">reg [8:0] ram_cnt/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">reg [8:0] ram_addr/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">reg [3:0] state/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">reg [15:0] r_data;</span></span><br><span class="line"><span class="string">//aram和bram寄存器定义</span></span><br><span class="line"><span class="string">reg [8:0] addra/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">reg [15:0] dina/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">wire [15:0] douta/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">reg [8:0] addrb/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">reg [15:0] dinb/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string">wire [15:0] doutb/*synthesis PAP_MARK_DEBUG=&quot;1&quot;*/;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//״̬</span></span><br><span class="line"><span class="string">parameter IDLE = 4&#x27;</span>b0001; //空闲</span><br><span class="line">parameter WRAM1 = 4<span class="string">&#x27;b0010; //写R1</span></span><br><span class="line"><span class="string">parameter WRAM2_RRAM1 = 4&#x27;</span>b0100; //读R1写R2</span><br><span class="line">parameter WRAM1_RRAM2 = 4<span class="string">&#x27;b1000; //写R1读R2</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*************************组合逻辑**************************/</span></span><br><span class="line"><span class="string">//R1读写切换</span></span><br><span class="line"><span class="string">assign wea = ((ram_cnt &lt;= 9&#x27;</span>d255)&amp;&amp;(ena == 1<span class="string">&#x27;b1)) ? 1 : 0;</span></span><br><span class="line"><span class="string">//R2读写切换</span></span><br><span class="line"><span class="string">assign web = ~wea;</span></span><br><span class="line"><span class="string">assign o_data_y = r_outdata_y;</span></span><br><span class="line"><span class="string">assign ena = i_rst;</span></span><br><span class="line"><span class="string">/*************************状态机****************************/</span></span><br><span class="line"><span class="string">//状态跳转</span></span><br><span class="line"><span class="string">always @(posedge i_clk or negedge i_rst) begin</span></span><br><span class="line"><span class="string">if (!i_rst) begin</span></span><br><span class="line"><span class="string">state &lt;= IDLE;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">case(state)</span></span><br><span class="line"><span class="string">IDLE:begin //空闲</span></span><br><span class="line"><span class="string">if (wea == 1&#x27;</span>b1) begin</span><br><span class="line">state &lt;= WRAM1; </span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line">state &lt;= IDLE;</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">WRAM1:begin //写R1</span><br><span class="line"><span class="keyword">if</span> ((wea == <span class="number">1</span>&#x27;b0)&amp;&amp;(web == <span class="number">1</span>&#x27;b1)) begin</span><br><span class="line">state &lt;= WRAM2_RRAM1; </span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line">state &lt;= WRAM1;</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">WRAM2_RRAM1:begin //读R1，写R2</span><br><span class="line"><span class="keyword">if</span> ((wea == <span class="number">1</span>&#x27;b1)&amp;&amp;(web == <span class="number">1</span>&#x27;b0))begin</span><br><span class="line">state &lt;= WRAM1_RRAM2;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line">state &lt;= WRAM2_RRAM1;</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">WRAM1_RRAM2:begin //写R1，读R2</span><br><span class="line"><span class="keyword">if</span> ((wea == <span class="number">1</span>&#x27;b0)&amp;&amp;(web == <span class="number">1</span>&#x27;b1))begin</span><br><span class="line">state &lt;= WRAM2_RRAM1;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line">state &lt;= WRAM1_RRAM2;</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">default:begin</span><br><span class="line">state &lt;= IDLE;</span><br><span class="line">end</span><br><span class="line">endcase</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">/*************************时序逻辑**************************/</span><br><span class="line"></span><br><span class="line">always @(posedge i_clk or negedge i_rst) begin</span><br><span class="line">    <span class="keyword">if</span>(!i_rst)</span><br><span class="line">        r_data &lt;= <span class="string">&#x27;d0;</span></span><br><span class="line"><span class="string">    else if(i_en)</span></span><br><span class="line"><span class="string">        r_data &lt;= i_data_x;</span></span><br><span class="line"><span class="string">    else</span></span><br><span class="line"><span class="string">        r_data &lt;= r_data;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//读写状态计数器</span></span><br><span class="line"><span class="string">always @(posedge i_clk or negedge i_rst) begin</span></span><br><span class="line"><span class="string">if (!i_rst) begin</span></span><br><span class="line"><span class="string">ram_cnt &lt;= 9&#x27;</span>d0;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(ram_cnt &lt; 9<span class="string">&#x27;d511)begin</span></span><br><span class="line"><span class="string">ram_cnt &lt;= ram_cnt + 1&#x27;</span>b1;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line">ram_cnt &lt;= 9<span class="string">&#x27;d0;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">//读写地址计数器</span></span><br><span class="line"><span class="string">always @(posedge i_clk or negedge i_rst) begin</span></span><br><span class="line"><span class="string">if (!i_rst) begin</span></span><br><span class="line"><span class="string">ram_addr &lt;= 9&#x27;</span>d0;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(ram_addr &lt; 9<span class="string">&#x27;d255)begin</span></span><br><span class="line"><span class="string">ram_addr &lt;= ram_addr + 1&#x27;</span>b1;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> begin</span><br><span class="line">ram_addr &lt;= 9<span class="string">&#x27;d0;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//读写数据</span></span><br><span class="line"><span class="string">always @(posedge i_clk or negedge i_rst) begin</span></span><br><span class="line"><span class="string">if (!i_rst) begin</span></span><br><span class="line"><span class="string">    //state &lt;= IDLE;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">else begin</span></span><br><span class="line"><span class="string">case (state)</span></span><br><span class="line"><span class="string">IDLE:begin</span></span><br><span class="line"><span class="string">addra &lt;= 9&#x27;</span>b0;</span><br><span class="line">dina &lt;= 16<span class="string">&#x27;b0;</span></span><br><span class="line"><span class="string">addrb &lt;= 9&#x27;</span>b0;</span><br><span class="line">dinb &lt;= 16<span class="string">&#x27;b0;</span></span><br><span class="line"><span class="string">end </span></span><br><span class="line"><span class="string">WRAM1:begin</span></span><br><span class="line"><span class="string">addra &lt;= ram_addr;</span></span><br><span class="line"><span class="string">dina &lt;= r_data; </span></span><br><span class="line"><span class="string">end </span></span><br><span class="line"><span class="string">WRAM2_RRAM1:begin</span></span><br><span class="line"><span class="string">addra &lt;= ram_addr;</span></span><br><span class="line"><span class="string">addrb &lt;= ram_addr;</span></span><br><span class="line"><span class="string">dinb &lt;= r_data;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">WRAM1_RRAM2:begin</span></span><br><span class="line"><span class="string">addra &lt;= ram_addr;</span></span><br><span class="line"><span class="string">addrb &lt;= ram_addr;</span></span><br><span class="line"><span class="string">dina &lt;= r_data;</span></span><br><span class="line"><span class="string">end </span></span><br><span class="line"><span class="string">default:begin</span></span><br><span class="line"><span class="string">// addra &lt;= addra;</span></span><br><span class="line"><span class="string">// dina &lt;= dina;</span></span><br><span class="line"><span class="string">// addrb &lt;= addrb;</span></span><br><span class="line"><span class="string">// dinb &lt;= dinb;</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">endcase</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ram_init a_ram (</span></span><br><span class="line"><span class="string">.wr_data(dina), // input [15:0]</span></span><br><span class="line"><span class="string">.addr(addra), // input [8:0]</span></span><br><span class="line"><span class="string">.clk(i_clk), // input</span></span><br><span class="line"><span class="string">.wr_en(wea), // input</span></span><br><span class="line"><span class="string">.rst(i_rst), // input</span></span><br><span class="line"><span class="string">.rd_data(douta) // output [15:0]</span></span><br><span class="line"><span class="string">);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ram_init b_ram (</span></span><br><span class="line"><span class="string">.wr_data(dinb), // input [15:0]</span></span><br><span class="line"><span class="string">.addr(addrb), // input [8:0]</span></span><br><span class="line"><span class="string">.clk(i_clk), // input</span></span><br><span class="line"><span class="string">.wr_en(web), // input</span></span><br><span class="line"><span class="string">.rst(i_rst), // input</span></span><br><span class="line"><span class="string">.rd_data(doutb) // output [15:0]</span></span><br><span class="line"><span class="string">);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">always @(posedge i_clk or negedge i_rst) begin</span></span><br><span class="line"><span class="string">if (!i_rst) begin</span></span><br><span class="line"><span class="string">r_outdata_y &lt;=&#x27;</span>d0;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (web) begin</span><br><span class="line">r_outdata_y &lt;= douta;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (wea) begin</span><br><span class="line">r_outdata_y &lt;= doutb;</span><br><span class="line">end</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">r_outdata_y &lt;= r_outdata_y;</span><br><span class="line">end</span><br><span class="line">endmodule</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>(新手第一次写博客，如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span><strong>License:</strong></span>
+                        <span>Copyright (c) <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span><strong>Slogan:</strong></span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/FPGA/">🔖FPGA</a>
+                    
+                        <a href="/tags/RAM/">🔖RAM</a>
+                    
+                        <a href="/tags/%E7%B4%AB%E5%85%89%E5%90%8C%E5%88%9B/">🔖紫光同创</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/06/02/poem_1/">自写诗歌之《兰陵王》</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", color),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    
+
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+
+
+</script>  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2024 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+         <!-- 访客数量 -->
+          
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<span class="site-uv">
+
+ |<font size=5>👀</font>
+ <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+
+</span>&nbsp;&nbsp;
+
+
+
+
+
+<span class="site-pv">
+
+<font size=4>👣</font>
+
+ <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+
+</span>
+
+  
+        
+        </span>
+    </div>
+</footer>
+
+
+<!-- He JIAHUI -->
+    </div>
+</body>
+
+</html>

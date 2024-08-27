@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="He JIAHUI">
+
+
+
+
+
+<title>基于HEXO中的Chic主题友链的添加 | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? '全部展开' : '收起';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基于HEXO中的Chic主题友链的添加</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">He JIAHUI</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">六月 26, 2024&nbsp;&nbsp;22:11:33</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA/">博客创建</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>整个博客界面是基于Chic主题来修改的，原主题并没有友链的功能，本来添加一个友链是一个很简单的事，只要新建一个<code>page</code>，然后在md文件里面<code>布局+定义格式＋渲染</code>即可，但是我想跟随主题的基调，把这三个步骤分开为md，ejs，styl三个文件，经过好几个晚上的折腾，终于是知道了layout的ejs文件与渲染styl文件的关系了，事不宜迟，请看下文！</p>
+<h1 id="前置步骤"><a href="#前置步骤" class="headerlink" title="前置步骤"></a>前置步骤</h1><h2 id="新建page"><a href="#新建page" class="headerlink" title="新建page"></a>新建page</h2><p>在自己的博客文件夹打开git,输入指令<code>hexo new page links</code>,随后即可在source文件中找到links文件夹，打开有md文件，接下来我们需要添加一个<code>nav</code>来链接md文件</p>
+<h2 id="新加nav"><a href="#新加nav" class="headerlink" title="新加nav"></a>新加nav</h2><p>在Chic主题内找到<code>_config.yml</code>文件，找到<code>nav</code>项目，添加links的链接<br><img src="/pic/hexo_4/photo_1.jpg" alt="img" width="500"></p>
+<p>这样我们就能在自己的博客页面上看到友链的链接了，接下来我们来配置友链格式及其渲染的东西</p>
+<h1 id="定义格式及渲染"><a href="#定义格式及渲染" class="headerlink" title="定义格式及渲染"></a>定义格式及渲染</h1><h2 id="定义格式"><a href="#定义格式" class="headerlink" title="定义格式"></a>定义格式</h2><p>打开我们刚刚创建的md文件，给md文件添加一个<code>layout</code>,layout后面填上link(我们后续需要创建一个link.ejs和link.styl文件)<br><img src="/pic/hexo_4/photo_2.jpg" alt="img" width="500"></p>
+<p>然后进入文件夹<code>/Chic/layout</code>，新建一个<code>link.ejs</code>文件,编辑<code>link.ejs</code>,输入以下代码即可有格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=<span class="string">&quot;container&quot;</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">&quot;post-wrap links&quot;</span>&gt;</span><br><span class="line">        &lt;h1 class=<span class="string">&quot;post-title&quot;</span>&gt;</span><br><span class="line">            &lt;%= page.title %&gt;</span><br><span class="line">        &lt;/h1&gt;</span><br><span class="line">        &lt;% <span class="keyword">for</span> (var i=0; i &lt; page.links.length; i++) &#123; %&gt;</span><br><span class="line">        &lt;div class=<span class="string">&quot;links-content&quot;</span>&gt;</span><br><span class="line">            &lt;div class=<span class="string">&quot;link-navigation&quot;</span>&gt;</span><br><span class="line">                    &lt;div class=<span class="string">&quot;card&quot;</span>&gt;</span><br><span class="line">                        &lt;img class=<span class="string">&quot;ava&quot;</span> src=<span class="string">&quot;&lt;%= page.links[i].photo %&gt;&quot;</span> /&gt;</span><br><span class="line">                        &lt;div class=<span class="string">&quot;card-header&quot;</span>&gt;</span><br><span class="line">                        &lt;div&gt;</span><br><span class="line">                            &lt;a href=<span class="string">&quot;&lt;%= page.links[i].url %&gt;&quot;</span> target=<span class="string">&quot;_blank&quot;</span>&gt;&lt;%= page.links[i].name %&gt;&lt;/a&gt;</span><br><span class="line">                        &lt;/div&gt;</span><br><span class="line">                        &lt;div class=<span class="string">&quot;info&quot;</span>&gt;&lt;%= page.links[i].info %&gt;&lt;/div&gt;</span><br><span class="line">                        &lt;/div&gt;</span><br><span class="line">                    &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;% &#125; %&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="格式渲染"><a href="#格式渲染" class="headerlink" title="格式渲染"></a>格式渲染</h2><p>进入<code>/Chic/source/css/_page</code>新建文件<code>link.styl</code>，编辑输入以下渲染代码（删除奇偶变换的东西，增加手机格式适应）:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">.links-content&#123;</span><br><span class="line">margin-top:1rem;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.link-navigation::after &#123;</span><br><span class="line">content: <span class="string">&quot; &quot;</span>;</span><br><span class="line">display: block;</span><br><span class="line">clear: both;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card &#123;</span><br><span class="line">width: 45%;</span><br><span class="line">font-size: 1rem;</span><br><span class="line">padding: 10px 20px;</span><br><span class="line">border-radius: 4px;</span><br><span class="line">transition-duration: 0.15s;</span><br><span class="line">margin-bottom: 1rem;</span><br><span class="line">display:flex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 奇偶格式变化，可要可不要</span></span><br><span class="line"><span class="comment"># .card:nth-child(odd) &#123;</span></span><br><span class="line"><span class="comment"># float: left;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># .card:nth-child(even) &#123;</span></span><br><span class="line"><span class="comment"># float: right;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line">.card:hover &#123;</span><br><span class="line">transform: scale(1.1);</span><br><span class="line">box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card a &#123;</span><br><span class="line">border:none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card .ava &#123;</span><br><span class="line">width: 3rem!important;</span><br><span class="line">height: 3rem!important;</span><br><span class="line">margin:0!important;</span><br><span class="line">margin-right: 1em!important;</span><br><span class="line">border-radius:4px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card .card-header &#123;</span><br><span class="line">font-style: italic;</span><br><span class="line">overflow: hidden;</span><br><span class="line">width: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card .card-header a &#123;</span><br><span class="line">font-style: normal;</span><br><span class="line">color: <span class="comment">#2bbc8a;</span></span><br><span class="line">font-weight: bold;</span><br><span class="line">text-decoration: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card .card-header a:hover &#123;</span><br><span class="line">color: <span class="comment">#d480aa;</span></span><br><span class="line">text-decoration: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.card .card-header .info &#123;</span><br><span class="line">font-style:normal;</span><br><span class="line">color:<span class="comment">#a3a3a3;</span></span><br><span class="line">font-size:14px;</span><br><span class="line">min-width: 0;</span><br><span class="line">overflow: hidden;</span><br><span class="line">white-space: nowrap;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">    /* 媒体查询，用于手机端 */</span><br><span class="line">@media (max-width: 768px) &#123;</span><br><span class="line">    .card &#123;</span><br><span class="line">    width: 90%; /* 在手机端，卡片宽度为页面宽度的90% */</span><br><span class="line">    <span class="built_in">float</span>: none; /* 移除浮动，使卡片堆叠 */</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="格式应用"><a href="#格式应用" class="headerlink" title="格式应用"></a>格式应用</h2><p>回到md文件，在<code>layout</code>下方添加一个属性<code>links</code>,属性后输入以下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- photo: (图片链接1，支持相对位置)</span><br><span class="line">  url: （友链链接1）</span><br><span class="line">  name:（友链名字1）</span><br><span class="line">  info: (友链座右铭1)</span><br><span class="line">- photo: (图片链接2，支持相对位置)</span><br><span class="line">  url: （友链链接2）</span><br><span class="line">  name:（友链名字2）</span><br><span class="line">  info: (友链座右铭2)</span><br></pre></td></tr></table></figure>
+<p>正常来说到这一步就结束了，可问题就出现了，发现渲染怎么都渲染不上，直到打开了<code>style.styl</code>文件才知道渲染和layout没对应上</p>
+<h2 id="layout的ejs文件对应渲染文件styl"><a href="#layout的ejs文件对应渲染文件styl" class="headerlink" title="layout的ejs文件对应渲染文件styl"></a>layout的ejs文件对应渲染文件styl</h2><p>打开<code>Chic/source/css/style.styl</code>文件，在<code>//page</code>下添加<code>@import &quot;_page/link.styl&quot;</code>代码，只有完成这一步才能真正完成对应。（就是这一步坑了我前端小白好几天）</p>
+<p>OK，完成以上步骤友链就可以正常使用啦！后续考虑美化一下友链界面。</p>
+<p><strong>(新手第一次写博客，如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span><strong>License:</strong></span>
+                        <span>Copyright (c) <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span><strong>Slogan:</strong></span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/hexo/">🔖hexo</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/07/30/hexo-5/">如何给个人博客网站加一个炫酷的背景？</a>
+            
+            
+            <a class="next" rel="next" href="/2024/06/12/audio-1/">语音增强性能评估相关函数（粉噪声、babble噪声、PESQ、STOI）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", color),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    
+
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+
+
+</script>  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2024 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+         <!-- 访客数量 -->
+          
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<span class="site-uv">
+
+ |<font size=5>👀</font>
+ <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+
+</span>&nbsp;&nbsp;
+
+
+
+
+
+<span class="site-pv">
+
+<font size=4>👣</font>
+
+ <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+
+</span>
+
+  
+        
+        </span>
+    </div>
+</footer>
+
+
+<!-- He JIAHUI -->
+    </div>
+</body>
+
+</html>
