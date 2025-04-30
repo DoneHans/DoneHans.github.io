@@ -13,7 +13,7 @@
 
 
 
-<title>归档: 2025 | Hans&#39;BLOOOOG</title>
+<title>Few-shot learning学习记录 | Hans&#39;BLOOOOG</title>
 
 
 
@@ -130,30 +130,21 @@
     }
 </script>
             <div class="main">
-                <div class="post-wrap archive">
-    
-    
+                <div class="container">
+    <article class="post-wrap page">
         
+        <h2 class="post-title">Few-shot learning学习记录</h2>
+        
+        <section class="post-content">
+            <p>本篇章用于记录我开始“深度学习”学习的过程，以便未来忘记可以反复回来学习，同时也给其他学习“深度学习”的伙伴们提供另外理解的过程，话不多说，直接开始。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>常用于小样本学习，让模型学习学会识别分辨事物的异同，比如给出几张不同类别动物图片（组成Support_set，带标签），然后随机给出一张query图片（任意动物），询问确认与图片是否是support_set某一种类别的图片。这样的一个过程就是few—shot learning,要完成这样的一个过程首先需要模型学习学会识别分辨事物的异同，比如在上述任务中，模型首先需要分辨两张图片的异同，计算他们的相似度“similarity”，完成这样的任务可以通过孪生网络来实现（Siamese net）</p>
+<h2 id="孪生网络Siamese-set"><a href="#孪生网络Siamese-set" class="headerlink" title="孪生网络Siamese set"></a>孪生网络Siamese set</h2><p>孪生网络就是在大量数据集下训练得到的，不过对数据集有点要求，不同的数据集组成训练的方法也不一样，简单来讲就是输入两个图片x1和x2，神经网络把两张图片提取为特征，通过计算两张图片特征的“距离”，从而判断出两者是否是同种类别。由于两张图片输入使用的是同样的神经网络，就像是孪生兄弟，因此而得名</p>
+<h2 id="训练孪生网络的方法"><a href="#训练孪生网络的方法" class="headerlink" title="训练孪生网络的方法"></a>训练孪生网络的方法</h2><p>训练孪生网络常有两种方法（这里说的方法其实是根据训练数据和损失函数的不同来区分的），第一种方法有点类似于对比学习，第二种方法即triplet损失函数。（先写下，以后再作详细介绍）</p>
+<h2 id="zero-shot、one-shot和few-shot"><a href="#zero-shot、one-shot和few-shot" class="headerlink" title="zero-shot、one-shot和few-shot"></a>zero-shot、one-shot和few-shot</h2><p>从以上基本概念的学习中，了解到少样本学习当中常常有support-set来辅助学习，当没有suppor-set的时候，模型怎么才能学习新类别呢？</p>
+<p>zero-shot(零样本学习):零样本学习是一种能够在没有任何样本的情况下学习新类别的方法。通常情况下，模型只能识别它在训练集中见过的类别。但通过零样本学习，模型能够利用一些辅助信息来进行推理，并推广到从未见过的类别上。这些辅助信息可以是关于类别的语义描述、属性或其他先验知识。<br>one-shot(一次样本学习):一次样本学习是一种只需要一个样本就能学习新类别的方法。这种方法试图通过学习样本之间的相似性来进行分类。例如，当我们只有一张狮子的照片时，一次样本学习可以帮助我们将新的狮子图像正确分类。<br>few-shot(少样本学习):少样本学习是介于零样本学习和一次样本学习之间的方法。它允许模型在有限数量的示例下学习新的类别。相比于零样本学习，少样本学习提供了更多的训练数据，但仍然相对较少。这使得模型能够从少量示例中学习新的类别，并在面对新的输入时进行准确分类。</p>
 
-        
-            <h3>2025</h3>
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2025/03/11/pytorch-learn/">Pytorch基础学习</a>
-            <span class="archive-item-date">三月 11, 2025</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2025/02/28/deeplearning-1/">Huggingface之大模型初体验</a>
-            <span class="archive-item-date">二月 28, 2025</span>
-        </article>
-    
-    
+        </section>
+    </article>
 </div>
 
 <script>
