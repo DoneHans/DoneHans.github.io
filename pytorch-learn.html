@@ -131,103 +131,11 @@
 </script>
             <div class="main">
                 <div class="container">
-    
-    
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
-        <a onclick="go_top()">返回顶部</a>
-        <a onclick="go_bottom()">去到底部</a>
-    </div>
-</div>
-
-<script>
-    var tocbot_timer;
-    var DEPTH_MAX = 6; // 为 6 时展开所有
-    var tocbot_default_config = {
-        tocSelector: '.tocbot-list',
-        contentSelector: '.post-content',
-        headingSelector: 'h1, h2, h3, h4, h5',
-        orderedList: false,
-        scrollSmooth: true,
-        onClick: extend_click,
-    };
-
-    function extend_click() {
-        clearTimeout(tocbot_timer);
-        tocbot_timer = setTimeout(function() {
-            tocbot.refresh(obj_merge(tocbot_default_config, {
-                hasInnerContainers: true
-            }));
-        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
-    }
-
-    document.ready(function() {
-        tocbot.init(obj_merge(tocbot_default_config, {
-            collapseDepth: 1
-        }));
-    });
-
-    function expand_toc() {
-        var b = document.querySelector('.tocbot-toc-expand');
-        var expanded = b.getAttribute('data-expanded');
-        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
-        tocbot.refresh(obj_merge(tocbot_default_config, {
-            collapseDepth: expanded ? 1 : DEPTH_MAX
-        }));
-        b.innerText = expanded ? '全部展开' : '收起';
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    function obj_merge(target, source) {
-        for (var item in source) {
-            if (source.hasOwnProperty(item)) {
-                target[item] = source[item];
-            }
-        }
-        return target;
-    }
-</script>
-    
-
-    
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">Pytorch基础学习</h1>
-            
-                <div class="post-meta">
-                    
-                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Ho GaFai</a>
-                    
-
-                    
-                        <span class="post-time">
-                        📅日期: <a href="#">三月 11, 2025&nbsp;&nbsp;16:22:53</a>
-                        </span>
-                    
-                <div>
-                    
-                        <span class="post-category">
-                        📚类别:
-                            
-                                <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/">深度学习入门</a>
-                            
-                        </span>
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">Pytorch基础学习</h2>
+        
+        <section class="post-content">
             <h1 id="Numpy基础"><a href="#Numpy基础" class="headerlink" title="Numpy基础"></a>Numpy基础</h1><h2 id="Numpy与Pytorch的关系"><a href="#Numpy与Pytorch的关系" class="headerlink" title="Numpy与Pytorch的关系"></a>Numpy与Pytorch的关系</h2><p>Pytorch中的tensor与Numpy非常相似，他们之间可以非常方便进行转换，因此掌握Numpy是学好Pytorch的基础。</p>
 <p>问题1：Python本身有列表和数组了，为什么还需要Numpy？<br>python的列表由于结构的问题，存储数据过程比较浪费资源，而数组不支持多维运算，Numpy正好弥补了这些不足。Numpy可以提供节省空间的多维数组，以及对多维数组进行处理的函数。</p>
 <h2 id="如何利用Numpy生成数组"><a href="#如何利用Numpy生成数组" class="headerlink" title="如何利用Numpy生成数组"></a>如何利用Numpy生成数组</h2><p>生成数组：利用random模块生成数组、利用特殊函数(ones、zeros等等)生成数组，利用arange linspace函数生成数组</p>
@@ -235,80 +143,9 @@
 <h1 id="Pytorch基础"><a href="#Pytorch基础" class="headerlink" title="Pytorch基础"></a>Pytorch基础</h1><h2 id="Pytorch的优点和组成"><a href="#Pytorch的优点和组成" class="headerlink" title="Pytorch的优点和组成"></a>Pytorch的优点和组成</h2><p>Pytorch相比于其他框架使用的是动态图，根据计算图搭建方式，可将计算图分为动态图和静态图。<br>　　动态图：运算与搭建同时进行，灵活，易调节<br>　　静态图：先搭建图，后运算，高效，不灵活<br>PyTorch采用的是动态图机制，每一次训练，都会销毁计算图并重新创建，这样做花销很大，但是更加灵活。TensorFlow采用的是静态图机制，一旦定义，训练时就不能修改。一开始就要搭建好计算图，然后才能进行数据的传输和计算，这意味着写代码过程中，错误将更加难以发现，因为搭建图的过程中不会报错，所以不知道错在哪里，只有在传入数据的过程中才能发现哪里出错，灵活性低，而且出现bug也不易调试。引用自【计算图，动态图与静态图_Sakura樱_子于的专栏-CSDN博客】<a target="_blank" rel="noopener" href="https://blog.csdn.net/SakuraHimi/article/details/104589704">https://blog.csdn.net/SakuraHimi/article/details/104589704</a></p>
 <p>此外还有很多其他优点，这里不再赘述。<br>PyTorch由4个主要的包组成：<br>• torch：类似于Numpy的通用数组库，可将张量类型转换为torch.cuda.TensorFloat，并在GPU上进行计算。<br>• torch.autograd：用于构建计算图形并自动获取梯度的包。<br>• torch.nn：具有共享层和损失函数的神经网络库。<br>• torch.optim：具有通用优化算法（如SGD、Adam等）的优化包。</p>
 
-        </div>
-
-        
-            <section class="post-copyright">
-                
-                
-                
-                    <p class="copyright-item">
-                        <span><strong>License:</strong></span>
-                        <span>Copyright (c) <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
-                     <p class="copyright-item">
-                         <span><strong>Slogan:</strong></span>
-                         <span>华生你发现了 <strong>盲点</strong></span>
-                     </p>
-                
-
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>标签:</span>
-                <span class="tag">
-                    
-                    
-                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">🔖深度学习</a>
-                    
-                        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">🔖人工智能</a>
-                    
-                        
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">返回</a>
-                <span>· </span>
-                <a href="/">主页</a>
-            </div>
         </section>
-        <section class="post-nav">
-            
-            
-            <a class="next" rel="next" href="/2025/02/28/deeplearning-1/">Huggingface之大模型初体验</a>
-            
-        </section>
-
-
     </article>
 </div>
-
-
-    <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
-<div id="gitalk-container"></div>
-<script type="text/javascript">
-      var gitalk = new Gitalk({
-        clientID: 'Ov23limJfmNOGg3GXeoa',
-        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
-        repo: 'DoneHans.github.io',
-        owner: 'DoneHans',
-        admin: 'DoneHans',
-        id: location.pathname,
-        labels: 'Gitalk'.split(',').filter(l => l),
-        perPage: 10,
-        pagerDirection: 'last',
-        createIssueManually: true,
-        distractionFreeMode: false,
-        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
-      })
-      gitalk.render('gitalk-container')
-</script>
-
 
 <script>
 !
