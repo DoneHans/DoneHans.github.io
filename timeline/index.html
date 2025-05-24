@@ -13,7 +13,7 @@
 
 
 
-<title>timeline | Hans&#39;BLOOOOG</title>
+<title>动态 | Hans&#39;BLOOOOG</title>
 
 
 
@@ -74,6 +74,8 @@
             <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
             <div class="menu navbar-right">
                 
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
                     <a class="menu-item" href="/archives">📖博文</a>
                 
                     <a class="menu-item" href="/category">📚类别</a>
@@ -83,8 +85,6 @@
                     <a class="menu-item" href="/about">💡关于</a>
                 
                     <a class="menu-item" href="/links">🔗友链</a>
-                
-                    <a class="menu-item" href="/timeline">⏳动态</a>
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
@@ -103,6 +103,8 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
                     <a class="menu-item" href="/archives">📖博文</a>
                 
                     <a class="menu-item" href="/category">📚类别</a>
@@ -112,8 +114,6 @@
                     <a class="menu-item" href="/about">💡关于</a>
                 
                     <a class="menu-item" href="/links">🔗友链</a>
-                
-                    <a class="menu-item" href="/timeline">⏳动态</a>
                 
             </div>
         </div>
@@ -136,7 +136,7 @@
             <div class="main">
                 <head>
     <title>
-        timeline
+        动态
     </title>
 </head>
 
@@ -144,69 +144,27 @@
     <div class="container">
         <div class="post-wrap">
             <h2 class="post-title">
-                timeline
+                动态
             </h2>
-            <div class="timeline" id="timeline">
-                <!-- 通过 JavaScript 动态渲染时间线内容 -->
+            <div class="timeline">
+                
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            2025-05-24
+                        </div>
+                        <div class="timeline-content">
+                            
+                                <p>
+                                    添加了“动态（timeline）”页面
+                                </p>
+                            
+                        </div>
+                    </div>
+                
+                
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
-    <script>
-        // 使用 Fetch API 从 YAML 文件加载数据
-        async function loadTimelineData() {
-            try {
-                const response = await fetch('source/_data/timeline.yml');
-                if (!response.ok) throw new Error('Failed to fetch YAML file');
-                const yamlText = await response.text();
-                const timelineData = jsyaml.load(yamlText);
-
-                const timelineElement = document.getElementById('timeline');
-                if (timelineData.timeline && timelineData.timeline.length > 0) {
-                    timelineData.timeline.forEach(function(item) {
-                        const timelineItem = document.createElement('div');
-                        timelineItem.className = 'timeline-item';
-
-                        const timelineDate = document.createElement('div');
-                        timelineDate.className = 'timeline-date';
-                        timelineDate.textContent = item.date;
-                        timelineItem.appendChild(timelineDate);
-
-                        const timelineContent = document.createElement('div');
-                        timelineContent.className = 'timeline-content';
-
-                        const p = document.createElement('p');
-                        if (item.type === 'blog_post') {
-                            if (item.link) {
-                                const a = document.createElement('a');
-                                a.href = item.link;
-                                a.textContent = item.description;
-                                p.appendChild(a);
-                            } else {
-                                p.textContent = item.description;
-                            }
-                        } else if (item.type === 'personal_status' || item.type === 'blog_renovation') {
-                            p.textContent = item.description;
-                        }
-
-                        timelineContent.appendChild(p);
-                        timelineItem.appendChild(timelineContent);
-                        timelineElement.appendChild(timelineItem);
-                    });
-                } else {
-                    timelineElement.innerHTML = '<p>暂无内容</p>';
-                }
-            } catch (error) {
-                console.error('Error loading timeline data:', error);
-                const timelineElement = document.getElementById('timeline');
-                timelineElement.innerHTML = '<p>Failed to load timeline data</p>';
-            }
-        }
-
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', loadTimelineData);
-    </script>
 </body>
 
 <script>
