@@ -13,7 +13,7 @@
 
 
 
-<title>Tag: 随笔 | Hans&#39;BLOOOOG</title>
+<title>timeline | Hans&#39;BLOOOOG</title>
 
 
 
@@ -134,34 +134,80 @@
     }
 </script>
             <div class="main">
-                
-    
-<div class="container">
-    <div class="post-wrap tags">
-        <h1 class="archive-title"><span class="iconfont icon-tags tag-icon"></span>&nbsp;随笔</h1>
-        <div class="archive-subtitle">
-            1 posts 
-        </div>    
-    
+                <head>
+    <title>
+        timeline
+    </title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="post-wrap">
+            <h2 class="post-title">
+                timeline
+            </h2>
+            <div class="timeline" id="timeline">
+                <!-- 通过 JavaScript 动态渲染时间线内容 -->
+            </div>
+        </div>
     </div>
-    <div class="post-wrap archive">
-    
-    
-        
 
-        
-            <h3>2024</h3>
-        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+    <script>
+        // 使用 Fetch API 从 YAML 文件加载数据
+        async function loadTimelineData() {
+            try {
+                const response = await fetch('source/_data/timeline.yml');
+                if (!response.ok) throw new Error('Failed to fetch YAML file');
+                const yamlText = await response.text();
+                const timelineData = jsyaml.load(yamlText);
 
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2024/12/30/summary-1/">岁不淹兮，二十又一——2024年度总结</a>
-            <span class="archive-item-date">十二月 30, 2024</span>
-        </article>
-    
-    
-</div>
-</div>
+                const timelineElement = document.getElementById('timeline');
+                if (timelineData.timeline && timelineData.timeline.length > 0) {
+                    timelineData.timeline.forEach(function(item) {
+                        const timelineItem = document.createElement('div');
+                        timelineItem.className = 'timeline-item';
 
+                        const timelineDate = document.createElement('div');
+                        timelineDate.className = 'timeline-date';
+                        timelineDate.textContent = item.date;
+                        timelineItem.appendChild(timelineDate);
+
+                        const timelineContent = document.createElement('div');
+                        timelineContent.className = 'timeline-content';
+
+                        const p = document.createElement('p');
+                        if (item.type === 'blog_post') {
+                            if (item.link) {
+                                const a = document.createElement('a');
+                                a.href = item.link;
+                                a.textContent = item.description;
+                                p.appendChild(a);
+                            } else {
+                                p.textContent = item.description;
+                            }
+                        } else if (item.type === 'personal_status' || item.type === 'blog_renovation') {
+                            p.textContent = item.description;
+                        }
+
+                        timelineContent.appendChild(p);
+                        timelineItem.appendChild(timelineContent);
+                        timelineElement.appendChild(timelineItem);
+                    });
+                } else {
+                    timelineElement.innerHTML = '<p>暂无内容</p>';
+                }
+            } catch (error) {
+                console.error('Error loading timeline data:', error);
+                const timelineElement = document.getElementById('timeline');
+                timelineElement.innerHTML = '<p>Failed to load timeline data</p>';
+            }
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadTimelineData);
+    </script>
+</body>
 
 <script>
 !
