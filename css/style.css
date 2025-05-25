@@ -690,12 +690,18 @@ header label {
   font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   margin-left: 100px;
 }
+.dark-theme .links a {
+  color: #a5a5a5;
+}
 .links a .iconfont {
   font-size: 1.5em;
 }
 .links a:hover {
   background-color: transparent;
   color: #96f;
+}
+.dark-theme .links a:hover {
+  color: #6b8e23;
 }
 @media (max-width: 768px) {
   .intro {
@@ -714,7 +720,7 @@ header label {
   }
   .avatar {
     position: relative;
-    top: -180px /* 将头像上移30px */;
+    top: -170px /* 将头像上移180px */;
   }
   .avatar img {
     width: 150px;
@@ -723,15 +729,21 @@ header label {
   .content {
     width: 100%;
     left: 0;
-    top: -120px;
+    top: -160px /* 将头像上移180px */;
     text-align: center;
+    margin-top: 10px /* 减少内容区域的上边距 */;
   }
   .nickname {
     text-align: center;
+    margin-top: 0 /* 移除nickname的上边距 */;
+    margin-bottom: 10px /* 减小nickname和描述之间的间隔 */;
+  }
+  .description {
+    margin-bottom: -180px /* 减小描述和其他内容之间的间隔 */;
   }
   .links-container {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px /* 减小链接区域的上边距 */;
   }
   .links a {
     margin-left: 0;
