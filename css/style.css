@@ -703,16 +703,6 @@ header label {
     flex-direction: column;
     align-items: center;
   }
-  .content {
-    width: 100%;
-    left: 0;
-    top: 0;
-    text-align: center;
-    margin-top: 20px;
-  }
-  .nickname {
-    text-align: center;
-  }
   .avatar-container {
     position: relative;
     width: 100%;
@@ -720,11 +710,24 @@ header label {
     top: auto;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .avatar {
+    position: relative;
+    top: -180px /* 将头像上移30px */;
   }
   .avatar img {
-    width: 120px;
+    width: 150px;
     margin: 0 auto;
+  }
+  .content {
+    width: 100%;
+    left: 0;
+    top: -120px;
+    text-align: center;
+  }
+  .nickname {
+    text-align: center;
   }
   .links-container {
     width: 100%;
