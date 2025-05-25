@@ -690,24 +690,53 @@ header label {
   font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   margin-left: 100px;
 }
+.dark-theme .links a {
+  color: #a5a5a5;
+}
 .links a .iconfont {
   font-size: 1.5em /* 图标大小调整为1.5倍 */;
 }
 .links a:hover {
   background-color: transparent;
+  color: #96f;
 }
-.heatmap-container {
-  width: 200px;
-  height: auto;
-  margin: 10px auto;
-  display: block;
+.dark-theme .links a:hover {
+  color: #6b8e23;
 }
-.heatmap {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 0 0.3618em rgba(0,0,0,0.05);
-  transition: all ease 0.4s;
+@media (max-width: 768px) {
+  .intro {
+    width: 100%;
+    flex-direction: column /* 垂直排列子元素 */;
+    align-items: center;
+  }
+  .content {
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+  }
+  .nickname {
+    text-align: center;
+  }
+  .avatar-container {
+    position: relative;
+    width: 100%;
+    right: auto;
+    top: auto;
+    margin-top: 20px;
+  }
+  .avatar img {
+    width: 150px;
+    margin: 0 auto;
+  }
+  .links-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .links a {
+    margin-left: 0;
+    justify-content: center;
+  }
 }
 .post-wrap {
   position: relative;
