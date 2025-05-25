@@ -611,51 +611,90 @@ header label {
   width: 60%;
 }
 .profile-container {
+  display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
 }
 .intro {
-  text-align: center;
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  position: relative /* 为 intro 添加相对定位 */;
 }
-.intro .avatar {
+.links-container {
+  display: flex;
+  justify-content: flex-start /* 将链接容器向左对齐 */;
+  width: 20%;
+}
+.links {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: flex-start /* 将链接图标向左对齐 */;
+}
+.content {
+  text-align: left;
+  width: 40% /* 调整 content 宽度 */;
+  position: relative /* 添加相对定位 */;
+  left: -450px /* 向左移动内容 */;
+  top: -20px /* 同步上移文字描述和nickname */;
+}
+.nickname {
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+  font-size: 4em;
+  font-weight: bold;
+  margin-bottom: 20px /* 增加nickname和描述之间的间隔 */;
+  text-shadow: 0 0 2px rgba(0,0,0,0.2);
+  position: relative;
+  top: 0px /* 调整 nickname 的垂直位置 */;
+}
+.nickname span:first-child {
+  display: block;
+  margin-bottom: 5px /* 增加 "Hi，I‘m" 和 nickname 之间的间距 */;
+}
+.description {
+  margin-bottom: 20px;
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+}
+.avatar-container {
+  width: 30%;
+  position: absolute /* 使用绝对定位 */;
+  right: 0 /* 将头像定位在右侧 */;
+  top: 0 /* 将头像定位在顶部 */;
+}
+.avatar {
   padding: 10px;
 }
-.intro .avatar img {
-  width: 128px;
+.avatar img {
+  width: 200px /* 增大头像图片的宽度 */;
   height: auto;
   display: inline-block;
-  -webkit-border-radius: 100%;
   border-radius: 100%;
-  -webkit-box-shadow: 0 0 0 0.3618em rgba(0,0,0,0.05);
   box-shadow: 0 0 0 0.3618em rgba(0,0,0,0.05);
   margin: 0 auto;
-  -webkit-transition: all ease 0.4s;
-  -moz-transition: all ease 0.4s;
-  -o-transition: all ease 0.4s;
   transition: all ease 0.4s;
   cursor: pointer;
 }
-.intro .avatar img:hover {
+.avatar img:hover {
   position: relative;
-  -webkit-transform: translateY(-0.75em);
-  -moz-transform: translateY(-0.75em);
-  -ms-transform: translateY(-0.75em);
-  -o-transform: translateY(-0.75em);
   transform: translateY(-0.75em);
-  cursor: pointer;
-}
-.nickname {
-  font-size: 2em;
-  font-weight: normal;
 }
 .links a {
   padding: 0 5px;
+  margin-bottom: 10px;
+  color: #333;
+  text-decoration: none;
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+  margin-left: 100px;
+}
+.links a .iconfont {
+  font-size: 1.5em /* 图标大小调整为1.5倍 */;
 }
 .links a:hover {
   background-color: transparent;
-}
-.links .iconfont {
-  font-size: 2em;
 }
 .post-wrap {
   position: relative;
