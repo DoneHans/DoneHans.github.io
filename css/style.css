@@ -621,11 +621,11 @@ header label {
   width: 80%;
   justify-content: space-between;
   align-items: center;
-  position: relative /* 为 intro 添加相对定位 */;
+  position: relative;
 }
 .links-container {
   display: flex;
-  justify-content: flex-start /* 将链接容器向左对齐 */;
+  justify-content: flex-start;
   width: 20%;
 }
 .links {
@@ -633,27 +633,27 @@ header label {
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  align-items: flex-start /* 将链接图标向左对齐 */;
+  align-items: flex-start;
 }
 .content {
   text-align: left;
-  width: 40% /* 调整 content 宽度 */;
-  position: relative /* 添加相对定位 */;
-  left: -450px /* 向左移动内容 */;
-  top: -20px /* 同步上移文字描述和nickname */;
+  width: 40%;
+  position: relative;
+  left: -450px;
+  top: -20px;
 }
 .nickname {
   font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   font-size: 4em;
   font-weight: bold;
-  margin-bottom: 20px /* 增加nickname和描述之间的间隔 */;
+  margin-bottom: 20px;
   text-shadow: 0 0 2px rgba(0,0,0,0.2);
   position: relative;
-  top: 0px /* 调整 nickname 的垂直位置 */;
+  top: 0px;
 }
 .nickname span:first-child {
   display: block;
-  margin-bottom: 5px /* 增加 "Hi，I‘m" 和 nickname 之间的间距 */;
+  margin-bottom: 5px;
 }
 .description {
   margin-bottom: 20px;
@@ -661,15 +661,15 @@ header label {
 }
 .avatar-container {
   width: 30%;
-  position: absolute /* 使用绝对定位 */;
-  right: 0 /* 将头像定位在右侧 */;
-  top: 0 /* 将头像定位在顶部 */;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 .avatar {
   padding: 10px;
 }
 .avatar img {
-  width: 200px /* 增大头像图片的宽度 */;
+  width: 200px;
   height: auto;
   display: inline-block;
   border-radius: 100%;
@@ -690,23 +690,17 @@ header label {
   font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   margin-left: 100px;
 }
-.dark-theme .links a {
-  color: #a5a5a5;
-}
 .links a .iconfont {
-  font-size: 1.5em /* 图标大小调整为1.5倍 */;
+  font-size: 1.5em;
 }
 .links a:hover {
   background-color: transparent;
   color: #96f;
 }
-.dark-theme .links a:hover {
-  color: #6b8e23;
-}
 @media (max-width: 768px) {
   .intro {
     width: 100%;
-    flex-direction: column /* 垂直排列子元素 */;
+    flex-direction: column;
     align-items: center;
   }
   .content {
@@ -714,6 +708,7 @@ header label {
     left: 0;
     top: 0;
     text-align: center;
+    margin-top: 20px;
   }
   .nickname {
     text-align: center;
@@ -723,10 +718,12 @@ header label {
     width: 100%;
     right: auto;
     top: auto;
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
   }
   .avatar img {
-    width: 150px;
+    width: 120px;
     margin: 0 auto;
   }
   .links-container {
