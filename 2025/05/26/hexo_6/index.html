@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Ho GaFai">
+
+
+
+
+
+<title>我把Hexo下的Chic主题主界面换成了我喜欢的样子 | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? '全部展开' : '收起';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">我把Hexo下的Chic主题主界面换成了我喜欢的样子</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Ho GaFai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">五月 26, 2025&nbsp;&nbsp;16:43:32</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E5%88%9B%E5%BB%BA/">博客创建</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近相对比较有空闲，打开博客界面，看来看去总感觉主界面太“平”了，一打开就一个头像几行字，周边全是空白区域，有种很单调的样子，看不下去了，打算做一个自己的主页。</p>
+<h1 id="Homepage主页"><a href="#Homepage主页" class="headerlink" title="Homepage主页"></a>Homepage主页</h1><p>首先看一下修改后的效果，如下：<br><img src="/pic/hexo_6/photo_1.png" alt="img" width="500"><br>手机端页面效果:<br><img src="/pic/hexo_6/photo_2.jpg" alt="img" width="500"></p>
+<h2 id="主页的想法"><a href="#主页的想法" class="headerlink" title="主页的想法"></a>主页的想法</h2><p>当然这次改变不想改变Chic主题作者的初心，“简约”，一开始想不到什么样子既简约又看起来不单调，在网上找来找去，终于在b站刷到一款自己相对比较称心的简约风格主页</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1SM411w7VZ/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=a9305f273b3f2cebd1741956a485125f">b站链接</a></p>
+<p>OK，这就是我要做的主页模板了！</p>
+<h2 id="ejs文件的修改"><a href="#ejs文件的修改" class="headerlink" title="ejs文件的修改"></a>ejs文件的修改</h2><p>要改变原本的布局，首先要对原有的组件进行添加或者修改，找到原版的主页文件夹，按照文件路径<code>themes\Chic\layout\_page</code>打开，找到<code>profile.ejs</code>文件，没错了，这就是主页的布局文件，下面是我修改后的ejs文件，各位可以进行参考</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="built_in">link</span> rel=<span class="string">&quot;stylesheet&quot;</span> href=<span class="string">&quot;../fonts/iconfont3/iconfont.css&quot;</span>&gt; </span><br><span class="line">&lt;div class=<span class="string">&quot;container profile-container&quot;</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">&quot;intro&quot;</span>&gt;</span><br><span class="line">        &lt;div class=<span class="string">&quot;links-container&quot;</span>&gt;</span><br><span class="line">            &lt;div class=<span class="string">&quot;links&quot;</span>&gt;</span><br><span class="line">                &lt;% <span class="keyword">if</span> (theme.links !== undefined) &#123; %&gt;</span><br><span class="line">                    &lt;% <span class="keyword">for</span> (var key <span class="keyword">in</span> theme.links)&#123; %&gt;</span><br><span class="line">                        &lt;a class=<span class="string">&quot;link-item&quot;</span> title=<span class="string">&quot;&lt;%- key %&gt;&quot;</span> href=<span class="string">&quot;&lt;%= theme.links[key] %&gt;&quot;</span>&gt;</span><br><span class="line">                            &lt;% <span class="keyword">if</span>(theme.links_text_enable) &#123; %&gt;</span><br><span class="line">                                &lt;%= key %&gt;</span><br><span class="line">                            &lt;%&#125;%&gt;</span><br><span class="line">                            &lt;%<span class="keyword">if</span>(theme.links_icon_enable)&#123; %&gt;</span><br><span class="line">                                &lt;i class=<span class="string">&quot;iconfont icon-&lt;%- key.toLowerCase() %&gt;&quot;</span>&gt;&lt;/i&gt;</span><br><span class="line">                            &lt;%&#125;%&gt;</span><br><span class="line">                        &lt;/a&gt;</span><br><span class="line">                    &lt;% &#125; %&gt;</span><br><span class="line">                &lt;% &#125; %&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=<span class="string">&quot;avatar-container&quot;</span>&gt;</span><br><span class="line">            &lt;div class=<span class="string">&quot;avatar&quot;</span>&gt;</span><br><span class="line">                &lt;a href=<span class="string">&quot;&lt;%- url_for(theme.nav.Posts) %&gt;&quot;</span>&gt;&lt;img src=<span class="string">&quot;&lt;%- url_for(theme.avatar) %&gt;&quot;</span>&gt;&lt;/a&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;    </span><br><span class="line">        &lt;div class=<span class="string">&quot;content&quot;</span>&gt;</span><br><span class="line">            &lt;div class=<span class="string">&quot;nickname&quot;</span>&gt;</span><br><span class="line">                &lt;span&gt;👋Hi, I<span class="string">&#x27;m&lt;/span&gt;&lt;br&gt;</span></span><br><span class="line"><span class="string">                &lt;span class=&quot;nickname-name&quot;&gt;&lt;%- theme.nickname %&gt;&lt;/span&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;div class=&quot;description&quot;&gt;&lt;%- markdown(theme.description) %&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码相比原有的代码其实基本没有什么改变，主要是加了<code>Hi,I&#39;m</code>这几个字，另外，在这一步有需要比较注意的点是，头像的布局要在content的上面，原因是在手机端布局的时候，头像要布局在content的上面，不然渲染不出来（这一步我踩坑了好久）</p>
+<h2 id="styl文件的修改"><a href="#styl文件的修改" class="headerlink" title="styl文件的修改"></a>styl文件的修改</h2><p>进入<code>/Chic/source/css/_page</code>文件夹，找到<code>profile.styl</code>文件，在文件渲染代码上，我借助GPT，告诉GPT我的需求：我希望link链接出现在左边竖直排列，然后横向分布<code>文字描述</code>，接着是头像&#x2F;或者其他东西。巴拉巴拉，经过很久的调整，终于给我生成了下面的代码:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">/** Profile **/</span><br><span class="line">.profile-container</span><br><span class="line">  display flex</span><br><span class="line">  justify-content center</span><br><span class="line">  align-items center</span><br><span class="line">  margin-top 50px</span><br><span class="line"></span><br><span class="line">.intro</span><br><span class="line">  display flex</span><br><span class="line">  width 80%</span><br><span class="line">  justify-content space-between</span><br><span class="line">  align-items center</span><br><span class="line">  position relative</span><br><span class="line"></span><br><span class="line">.links-container</span><br><span class="line">  display flex</span><br><span class="line">  justify-content flex-start</span><br><span class="line">  width 20%</span><br><span class="line"></span><br><span class="line">.links</span><br><span class="line">  display flex</span><br><span class="line">  flex-direction column</span><br><span class="line">  justify-content flex-start</span><br><span class="line">  width 100%</span><br><span class="line">  align-items flex-start</span><br><span class="line"></span><br><span class="line">.content</span><br><span class="line">  text-align left</span><br><span class="line">  width 40%</span><br><span class="line">  position relative</span><br><span class="line">  left -450px</span><br><span class="line">  top -20px</span><br><span class="line"></span><br><span class="line">.nickname</span><br><span class="line">  font-family <span class="string">&#x27;Arial Rounded MT Bold&#x27;</span>, <span class="string">&#x27;Arial&#x27;</span>, sans-serif</span><br><span class="line">  font-size 4em</span><br><span class="line">  font-weight bold</span><br><span class="line">  margin-bottom 20px</span><br><span class="line">  text-shadow 0 0 2px rgba(0, 0, 0, 0.2)</span><br><span class="line">  position relative</span><br><span class="line">  top 0px</span><br><span class="line"></span><br><span class="line">.nickname span:first-child</span><br><span class="line">  display block</span><br><span class="line">  margin-bottom 5px</span><br><span class="line"></span><br><span class="line">.description</span><br><span class="line">  margin-bottom 20px</span><br><span class="line">  font-family <span class="string">&#x27;Arial Rounded MT Bold&#x27;</span>, <span class="string">&#x27;Arial&#x27;</span>, sans-serif</span><br><span class="line"></span><br><span class="line">.avatar-container</span><br><span class="line">  width 30%</span><br><span class="line">  position absolute</span><br><span class="line">  right 0</span><br><span class="line">  top 0</span><br><span class="line"></span><br><span class="line">.avatar</span><br><span class="line">  padding 10px</span><br><span class="line"></span><br><span class="line">.avatar img</span><br><span class="line">  width 200px</span><br><span class="line">  height auto</span><br><span class="line">  display inline-block</span><br><span class="line">  border-radius 100%</span><br><span class="line">  box-shadow 0 0 0 0.3618em rgba(0, 0, 0, 0.05)</span><br><span class="line">  margin 0 auto</span><br><span class="line">  transition all ease 0.4s</span><br><span class="line">  cursor pointer</span><br><span class="line"></span><br><span class="line">.avatar img:hover</span><br><span class="line">  position relative</span><br><span class="line">  transform translateY(-0.75em)</span><br><span class="line"></span><br><span class="line">.links a</span><br><span class="line">  padding 0 5px</span><br><span class="line">  margin-bottom 10px</span><br><span class="line">  color <span class="comment">#333</span></span><br><span class="line">  text-decoration none</span><br><span class="line">  font-family <span class="string">&#x27;Arial Rounded MT Bold&#x27;</span>, <span class="string">&#x27;Arial&#x27;</span>, sans-serif</span><br><span class="line">  margin-left 100px</span><br><span class="line">  .dark-theme &amp;</span><br><span class="line">    color <span class="comment">#a5a5a5;</span></span><br><span class="line"></span><br><span class="line">.links a .iconfont</span><br><span class="line">  font-size 1.5em</span><br><span class="line"></span><br><span class="line">.links a:hover</span><br><span class="line">  background-color transparent</span><br><span class="line">  color <span class="comment">#9966FF</span></span><br><span class="line">  .dark-theme &amp;</span><br><span class="line">    color <span class="comment">#6B8E23</span></span><br><span class="line"></span><br><span class="line">/* 媒体查询，用于手机端 */</span><br><span class="line">@media (max-width 768px)</span><br><span class="line">  .intro</span><br><span class="line">    width 100%</span><br><span class="line">    flex-direction column</span><br><span class="line">    align-items center</span><br><span class="line"></span><br><span class="line">  .avatar-container</span><br><span class="line">    position relative</span><br><span class="line">    width 100%</span><br><span class="line">    right auto</span><br><span class="line">    top auto</span><br><span class="line">    display flex</span><br><span class="line">    justify-content center</span><br><span class="line">    margin-bottom 20px</span><br><span class="line"></span><br><span class="line">  .avatar</span><br><span class="line">    position relative</span><br><span class="line">    top -170px</span><br><span class="line"></span><br><span class="line">  .avatar img</span><br><span class="line">    width 150px</span><br><span class="line">    margin 0 auto</span><br><span class="line"></span><br><span class="line">  .content</span><br><span class="line">    width 100%</span><br><span class="line">    left 0</span><br><span class="line">    top -160px</span><br><span class="line">    text-align center</span><br><span class="line">    margin-top 10px</span><br><span class="line"></span><br><span class="line">  .nickname</span><br><span class="line">    text-align center</span><br><span class="line">    margin-top 0</span><br><span class="line">    margin-bottom 10px</span><br><span class="line"></span><br><span class="line">  .description</span><br><span class="line">    margin-bottom -180px</span><br><span class="line"></span><br><span class="line">  .links-container</span><br><span class="line">    width 100%</span><br><span class="line">    margin-top 15px</span><br><span class="line"></span><br><span class="line">  .links a</span><br><span class="line">    margin-left 0</span><br><span class="line">    justify-content center</span><br><span class="line"></span><br><span class="line">/* 媒体查询，用于平板端 */</span><br><span class="line">@media (min-width 769px) and (max-width 1324px)</span><br><span class="line">  .intro</span><br><span class="line">    width 90%</span><br><span class="line">    flex-direction row</span><br><span class="line">    align-items center</span><br><span class="line"></span><br><span class="line">  .avatar-container</span><br><span class="line">    position absolute</span><br><span class="line">    width 25%</span><br><span class="line">    right 0</span><br><span class="line">    top 0</span><br><span class="line"></span><br><span class="line">  .avatar img</span><br><span class="line">    width 150px</span><br><span class="line"></span><br><span class="line">  .content</span><br><span class="line">    width 50%</span><br><span class="line">    left -280px</span><br><span class="line">    top 0</span><br><span class="line">    text-align left</span><br><span class="line">    margin-top 0</span><br><span class="line"></span><br><span class="line">  .nickname</span><br><span class="line">    text-align left</span><br><span class="line">    margin-top 0</span><br><span class="line">    margin-bottom 20px</span><br><span class="line"></span><br><span class="line">  .description</span><br><span class="line">    margin-bottom 20px</span><br><span class="line"></span><br><span class="line">  .links-container</span><br><span class="line">    width 25%</span><br><span class="line">    margin-top 0</span><br><span class="line">    align-self flex-start</span><br><span class="line"></span><br><span class="line">  .links a</span><br><span class="line">    margin-left 0</span><br><span class="line">    justify-content flex-start</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我还考虑了夜间模式和响应式网页分布（手机端和平板端布局），具体的就不说多了，感兴趣的可以研究一下。</p>
+<p>对了完成以上这个步骤后，就完成了！（如果是我们新建的styl文件和ejs文件，我们还需要把他们对应起来，具体可以看《基于HEXO中的Chic主题友链的添加》这篇文章）</p>
+<p><strong>(如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span><strong>License:</strong></span>
+                        <span>Copyright (c) <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span><strong>Slogan:</strong></span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/hexo/">🔖hexo</a>
+                    
+                        <a href="/tags/%E7%BE%8E%E5%8C%96/">🔖美化</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/02/28/deeplearning-1/">Huggingface之大模型初体验</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", color),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    
+
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+
+
+</script>  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2025 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+         <!-- 访客数量 -->
+          
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<span class="site-uv">
+
+ |<font size=5>👀</font>
+ <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+
+</span>&nbsp;&nbsp;
+
+
+
+
+
+<span class="site-pv">
+
+<font size=4>👣</font>
+
+ <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+
+</span>
+
+  
+        
+        </span>
+    </div>
+</footer>
+
+
+<!-- Ho GaFai -->
+    </div>
+</body>
+
+</html>
