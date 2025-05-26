@@ -690,18 +690,12 @@ header label {
   font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   margin-left: 100px;
 }
-.dark-theme .links a {
-  color: #a5a5a5;
-}
 .links a .iconfont {
   font-size: 1.5em;
 }
 .links a:hover {
   background-color: transparent;
   color: #96f;
-}
-.dark-theme .links a:hover {
-  color: #6b8e23;
 }
 @media (max-width: 768px) {
   .intro {
@@ -720,7 +714,7 @@ header label {
   }
   .avatar {
     position: relative;
-    top: -170px /* 将头像上移180px */;
+    top: -170px;
   }
   .avatar img {
     width: 150px;
@@ -729,25 +723,65 @@ header label {
   .content {
     width: 100%;
     left: 0;
-    top: -160px /* 将头像上移180px */;
+    top: -160px;
     text-align: center;
-    margin-top: 10px /* 减少内容区域的上边距 */;
+    margin-top: 10px;
   }
   .nickname {
     text-align: center;
-    margin-top: 0 /* 移除nickname的上边距 */;
-    margin-bottom: 10px /* 减小nickname和描述之间的间隔 */;
+    margin-top: 0;
+    margin-bottom: 10px;
   }
   .description {
-    margin-bottom: -180px /* 减小描述和其他内容之间的间隔 */;
+    margin-bottom: -180px;
   }
   .links-container {
     width: 100%;
-    margin-top: 15px /* 减小链接区域的上边距 */;
+    margin-top: 15px;
   }
   .links a {
     margin-left: 0;
     justify-content: center;
+  }
+}
+@media (min-width: 769px) and (max-width: 1324px) {
+  .intro {
+    width: 90%;
+    flex-direction: row;
+    align-items: center;
+  }
+  .avatar-container {
+    position: absolute;
+    width: 25%;
+    right: 0;
+    top: 0;
+  }
+  .avatar img {
+    width: 150px;
+  }
+  .content {
+    width: 50%;
+    left: -280px;
+    top: 0;
+    text-align: left;
+    margin-top: 0;
+  }
+  .nickname {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .description {
+    margin-bottom: 20px;
+  }
+  .links-container {
+    width: 25%;
+    margin-top: 0;
+    align-self: flex-start;
+  }
+  .links a {
+    margin-left: 0;
+    justify-content: flex-start;
   }
 }
 .post-wrap {
