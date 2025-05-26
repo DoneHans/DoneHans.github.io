@@ -690,12 +690,18 @@ header label {
   font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   margin-left: 100px;
 }
+.dark-theme .links a {
+  color: #a5a5a5;
+}
 .links a .iconfont {
   font-size: 1.5em;
 }
 .links a:hover {
   background-color: transparent;
   color: #96f;
+}
+.dark-theme .links a:hover {
+  color: #6b8e23;
 }
 @media (max-width: 768px) {
   .intro {
