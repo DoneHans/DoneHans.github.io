@@ -1046,6 +1046,20 @@ header label {
   margin: 0;
   padding-top: 0;
 }
+.note {
+  padding: 0.1rem 0.6rem;
+  border-left: 0.35rem solid;
+  border-radius: 0.2rem;
+  margin: 1rem 0;
+  color: var(--text-color);
+  transition: color 0.2s ease-in-out;
+  font-size: 0.95rem; /* 缩小字体大小 */
+  line-height: 1.5;
+}
+.note-info {
+  background-color: rgba(160,197,228,0.25);
+  border-color: #428bca;
+}
 .links-content {
   margin-top: 1rem;
 }
