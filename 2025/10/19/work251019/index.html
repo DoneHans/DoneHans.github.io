@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Ho GaFai">
+
+
+
+
+
+<title>学习记录|10月：qwen3vl==你不要太强 | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? '全部展开' : '收起';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">学习记录|10月：qwen3vl==你不要太强</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Ho GaFai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">十月 19, 2025&nbsp;&nbsp;14:38:18</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><div class="note note-info">
+    <p><strong>语言大模型是通往AGI的必经之路，并且初步具备了AGI的特征，所以我们从这里开始。  --梁文锋</strong></p>
+</div>
+
+<h2 id="调用云端的qwen3vl实现物体检测"><a href="#调用云端的qwen3vl实现物体检测" class="headerlink" title="调用云端的qwen3vl实现物体检测"></a>调用云端的qwen3vl实现物体检测</h2><p>本次代码需要的包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">openai</span><br><span class="line">pillow</span><br><span class="line">torch</span><br><span class="line">torchvision</span><br><span class="line">requests</span><br><span class="line">packaging</span><br></pre></td></tr></table></figure>
+
+<p>为了实现物体检测，需要实现几个步骤，首先就是得有通义百炼 OpenAI 兼容接口（注册通义百炼账号），这样才能通过使用 OpenAI SDK 调用百炼的 Qwen-VL 模型，OK啊，那我们就来注册一个账户<a target="_blank" rel="noopener" href="https://www.aliyun.com/product/bailian/getting-started">通义百炼网址</a>，为什么要用通义百炼呢，因为他会送“免费百万token”(真香！)，注册完后进入模型管理–&gt;密钥生成，生成一个自己的密钥APIkey，到这一步已经完成一半了。</p>
+<img src="/pic/work251019/photo1.jpg" alt="img" width="500">
+
+<p>有了自己的KPIkey后就可以用OpenAI SDK(软件开发工具包,代码和OpenAI等强大模型之间的“桥梁”)调用百炼的 Qwen-VL 模型</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># === 配置你的通义百炼 OpenAI 兼容接口 ===</span></span><br><span class="line">BAIAN_API_BASE = <span class="string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>  <span class="comment"># ← 替换为你的 /v1 地址</span></span><br><span class="line">BAIAN_API_KEY = <span class="string">&quot;******************************&quot;</span>  <span class="comment"># ← 替换为你的 API Key</span></span><br><span class="line"><span class="comment"># MODEL_NAME = &quot;qwen2.5-vl-72b-instruct&quot;      # ← 替换为百炼中模型的实际名称（或服务绑定的模型名）</span></span><br><span class="line">MODEL_NAME = <span class="string">&quot;qwen3-vl-plus&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>随后就是一些参数和初始化 OpenAI 客户端以及调用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">target_obj = [<span class="string">&quot;垃圾桶&quot;</span>]  <span class="comment"># ← 你想检测的目标类别, 比如 &quot;car&quot;, &quot;person&quot;, &quot;dog&quot; 等等</span></span><br><span class="line">min_pixels = 512*28*28</span><br><span class="line">max_pixels = 2000*28*28</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 OpenAI 客户端（指向百炼）</span></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=BAIAN_API_BASE,</span><br><span class="line">    api_key=BAIAN_API_KEY</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">def call_qwen_vl_with_openai(image_b64, prompt):</span><br><span class="line">    <span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">    使用 OpenAI SDK 调用百炼的 Qwen-VL 模型</span></span><br><span class="line"><span class="string">    &quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">    try:</span><br><span class="line">        response = client.chat.completions.create(</span><br><span class="line">            model=MODEL_NAME,</span><br><span class="line">            messages=[</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;content&quot;</span>: [</span><br><span class="line">                        &#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>, <span class="string">&quot;text&quot;</span>: prompt&#125;,</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image_url&quot;</span>,</span><br><span class="line">                            <span class="string">&quot;min_pixels&quot;</span>: min_pixels,</span><br><span class="line">                            <span class="string">&quot;max_pixels&quot;</span>: max_pixels,</span><br><span class="line">                            <span class="string">&quot;image_url&quot;</span>: &#123;</span><br><span class="line">                                <span class="string">&quot;url&quot;</span>: f<span class="string">&quot;data:image/jpeg;base64,&#123;image_b64&#125;&quot;</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            temperature=0.01,</span><br><span class="line">            max_tokens=1000</span><br><span class="line">        )</span><br><span class="line">        <span class="built_in">return</span> response.choices[0].message.content</span><br><span class="line">    except Exception as e:</span><br><span class="line">        <span class="built_in">print</span>(f<span class="string">&quot;❌ 调用失败: &#123;e&#125;&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span> None</span><br></pre></td></tr></table></figure>
+
+<p>接下来就是主函数模块，这部分主要是把各个模块组合在一起，对了，忘记介绍了一个物体检测框框标记的模块<code>plot_bounding_boxes_qwen3</code>该模块示例代码都是参考<a target="_blank" rel="noopener" href="https://github.com/QwenLM/Qwen3-VL/blob/main/cookbooks/2d_grounding.ipynb">Qwen3-VL使用说明</a>来实现的，主函数及调用代码如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">def main(image_path, output_path=<span class="string">&quot;output_with_bbox.jpg&quot;</span>):</span><br><span class="line">    <span class="comment"># Step 1: 缩放图片</span></span><br><span class="line">    image = Image.open(image_path).convert(<span class="string">&quot;RGB&quot;</span>)</span><br><span class="line">    width, height = image.size</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;📷 原始图片尺寸: &#123;width&#125;x&#123;height&#125;&quot;</span>)</span><br><span class="line">    input_height, input_width = smart_resize(height, width, min_pixels=min_pixels, max_pixels=max_pixels)</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;✅ 图片已缩放至: &#123;input_width&#125;x&#123;input_height&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 2: 转 base64</span></span><br><span class="line">    img_b64 = image_to_base64(image)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 3: 调用模型</span></span><br><span class="line">    prompt = (</span><br><span class="line">        f<span class="string">&quot;检测图中所有&#123;target_obj&#125;, 并以JSON格式输出其bbox的坐标以及可信度, 标注信息为英文.&quot;</span></span><br><span class="line">    )</span><br><span class="line">    raw_response = call_qwen_vl_with_openai(img_b64, prompt)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;💬 模型原始返回:&quot;</span>, raw_response)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Step 4: draw bounding boxes</span></span><br><span class="line">    <span class="keyword">if</span> MODEL_NAME.startswith(<span class="string">&quot;qwen3&quot;</span>):</span><br><span class="line">        output_img = plot_bounding_boxes_qwen3(image, raw_response, vizualize=True)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        output_img = plot_bounding_boxes(image, raw_response, input_width, input_height, vizualize=True)</span><br><span class="line">    output_img.save(output_path)</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;✅ 结果已保存至: &#123;output_path&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># get input image path from command line</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) &lt; 2:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;请提供输入图片路径&quot;</span>)</span><br><span class="line">        sys.exit(1)</span><br><span class="line">    input_image = sys.argv[1]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 安装依赖: pip install openai pillow</span></span><br><span class="line">    main(input_image, <span class="string">&quot;result_remote.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>对了注意代码参数的输入形式是sys.argv，需要通过终端来输入参数(图片的路径)</p>
+<img src="/pic/work251019/result_remote.jpg" alt="img" width="500">
+
+<h2 id="ollama本地部署检测"><a href="#ollama本地部署检测" class="headerlink" title="ollama本地部署检测"></a>ollama本地部署检测</h2><p>Ollama是一个专为在本地计算机上运行大型语言模型（LLM）而设计的开源工具。它极大地简化了下载、运行和管理各种AI模型的过程，让你无需依赖云端服务，就能在自己的设备上体验AI能力。(BUT,本地部署需要一定算力和存储资源才能实现)</p>
+<p>虽然说ollama是一个很方便的工具，但是也不能一上来就开始用，需要配置环境，需要CUDA，CUDA toolkit，cuDNN,这部分我就直接post个CSDN的教程在这里<a target="_blank" rel="noopener" href="https://blog.csdn.net/KRISNAT/article/details/134870009?spm=1001.2014.3001.5506">教程</a></p>
+<p>有了环境准备，那就可以开始下载ollama了，<a target="_blank" rel="noopener" href="https://ollama.com/download">Ollama官方网址</a></p>
+<p>下载完就可以开始使用了，因为我们不再用云端了，所以BAIAN_API_BASE，BAIAN_API_KEY，MODEL_NAME都要改一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># === 配置本地 Ollama 服务 ===</span></span><br><span class="line">OLLAMA_API_BASE = <span class="string">&quot;http://localhost:11434/v1&quot;</span>  <span class="comment"># Ollama 默认本地地址</span></span><br><span class="line">OLLAMA_API_KEY = <span class="string">&quot;ollama&quot;</span>  <span class="comment"># Ollama 通常不需要认证，但可以设为任意值</span></span><br><span class="line">MODEL_NAME = <span class="string">&quot;qwen2.5vl:7b&quot;</span>  <span class="comment"># 本地安装的模型名称</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>本次工作稍微地玩一下大模型调用，云端和本地调用，但是对比最后的效果来说，云端还是方便又牛逼啊！</p>
+<p><strong>(如有错误和不好的地方，请多担待，另外对程序有问题请提出噢！)</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span><strong>License:</strong></span>
+                        <span>Copyright (c) <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span><strong>Slogan:</strong></span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">🔖学习记录</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/09/06/ros250906/">学习记录|9月：Hello ROSworld!?</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", color),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    
+
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+
+
+</script>  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2025 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+         <!-- 访客数量 -->
+          
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<span class="site-uv">
+
+ |<font size=5>👀</font>
+ <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+
+</span>&nbsp;&nbsp;
+
+
+
+
+
+<span class="site-pv">
+
+<font size=4>👣</font>
+
+ <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+
+</span>
+
+  
+        
+        </span>
+    </div>
+</footer>
+
+
+<!-- Ho GaFai -->
+    </div>
+</body>
+
+</html>
