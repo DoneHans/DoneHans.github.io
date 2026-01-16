@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Ho GaFai">
+
+
+
+
+
+<title>二十二——2025年度总结 | Hans&#39;BLOOOOG</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/timeline">⏳动态</a>
+                
+                    <a class="menu-item" href="/archives">📖博文</a>
+                
+                    <a class="menu-item" href="/category">📚类别</a>
+                
+                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                
+                    <a class="menu-item" href="/about">💡关于</a>
+                
+                    <a class="menu-item" href="/links">🔗友链</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">返回顶部</a>
+        <a onclick="go_bottom()">去到底部</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? '全部展开' : '收起';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">二十二——2025年度总结</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Ho GaFai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">十二月 29, 2025&nbsp;&nbsp;16:55:00</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                        📚类别:
+                            
+                                <a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <!-- 🎵 陶喆 - 二十二 -->
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=150565&auto=0&height=66"></iframe>
+</div>
+
+<p><font size=3 face="微软雅黑">&emsp;&emsp;转眼间2025年已经接近尾声。回望这一年，从年初的忐忑等待，再到九月的研究生新生活，这一年对我而言，是人生中极为重要的转折之年。二十又二，我在成长的道路上又迈出了坚实的一步？<br></font></p>
+<h2 id="“盐”路"><a href="#“盐”路" class="headerlink" title="“盐”路"></a>“盐”路</h2><p><font size=3 face="微软雅黑">&emsp;&emsp;以前看电影，总觉得主角最快乐的时候，就是无论经历多少磨难，最后大团圆结局那一刻。去年写下“承认普通”的时候，我以为这就是结局了。直到三月看到拟录取名单，我以为那一刻才是结局。但也正如大家说的，“上岸这种快乐，好像真的只有确认的那一秒”。</p>
+<p>&emsp;&emsp;后来日子真正慢下来，我才发现，生活哪有什么大结局，不过是一个镜头接着一个镜头。</p>
+<p>&emsp;&emsp;这条“盐”路，确实有点像盐。不是那种为了煽情而撒的盐，就是那种最普通、最日常，甚至有时候不小心放多了会发苦的盐。它是每天看文献看到眼睛发酸时的干涩，是实验卡住时那种说不出的憋屈，也是一个人走在夜路里，被路灯拉长的影子。这种味道，没那么宏大，但很真实。你会发现，原来所谓的“蜕变”，不是突然变成超级英雄，而是你开始习惯这种淡淡的咸味，习惯这种不那么刺激、甚至有点无聊的日常，并且试着在里面找点滋味。</p>
+<p>&emsp;&emsp;五月的时候，我遇到了帅哥和杰哥。在他们身上，我看到的不是那种高高在上的学术光环，而是一种很纯粹的、对事情较真的劲儿。他们就像是那种经验丰富的老电影人，不跟你讲大道理，只是默默地调整灯光、摆弄机位，然后告诉你：“来，从这个角度看，会不一样。” 是他们让我明白，做研究不是为了表演给谁看，而是为了给自己心里的疑问一个交代。</p>
+<p>&emsp;&emsp;九月，剧组转场，故事进入了下一章。那种感觉很奇妙，就像是换了全新的剧本，虽然还是在这个熟悉的世界里，但角色升级了，难度也增加了，连呼吸的节奏都得重新适应。但剧情有时候就是这么有意思。那天推开宿舍门，发现我的新舍友竟然跟我同一天生日。那一瞬间，我突然觉得这段原本充满压力的开局，好像也变得温柔了起来。这种巧合，就像是导演偷偷埋的一个彩蛋，不多，但足够让你在累的时候会心一笑。噢不，甚至可能不止一笑。</p>
+<p>&emsp;&emsp;从去年到今年，从一个地方到另一个地方，其实我还是那个普通的我。没有什么惊天动地的逆袭，也没有什么脱胎换骨的重生。我只是在这条有点咸的路上，换了一双更耐走的鞋，继续一步一步地往下走。就像电影里那些没有台词的长镜头，虽然平淡，但这就是生活本身的样子。<br></font></p>
+<h2 id="“茫”路"><a href="#“茫”路" class="headerlink" title="“茫”路"></a>“茫”路</h2><p><font size=3 face="微软雅黑">&emsp;&emsp;这一年，最让我有所感觉的，是我一直在忙，但最后回头去看，并没有做出什么大成就，不知道自己究竟在忙些什么。朋友圈也不再更新的“频繁”(相对的)，每当想发点什么，最后也是发不出来，也只好骗骗自己，也没什么好发的。就连这篇想在跨年发出来的年度总结，也是拖到一月月中才开始起笔，甚至不知道什么时候能发出来。(苦笑)</p>
+<p>&emsp;&emsp;好在，我也忙了，倒也有些小收获，学点小知识，学点人情世故，虽然和年初宏大的计划比起来显得微不足道，但至少没有辜负自己。</p>
+<p>&emsp;&emsp;仔细想想，或许这就是“茫”的另一种解法——在看似混乱的忙碌中，收集那些细碎的、确定的快乐。就不去纠结路到底有多远了，既然身在其中，那就把手边的每一件小事做好。毕竟，路都是走出来的，不是想出来的。茫路漫漫，亦是前路灿灿。<br></font></p>
+<h2 id="2025年的美好时光"><a href="#2025年的美好时光" class="headerlink" title="2025年的美好时光"></a>2025年的美好时光</h2><style>
+.month-block {
+  margin-bottom: 25px;
+}
+.month-photos {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.month-photos.cols-1 { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+.month-photos.cols-2 { grid-template-columns: repeat(2, 1fr); max-width: 500px; margin: 0 auto; }
+.month-photos.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.month-photos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+.month-photos img:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/feb_1.jpg" alt="二月1">
+  <img src="/pic/summary_2/feb_2.jpg" alt="二月2">
+  <img src="/pic/summary_2/feb_3.jpg" alt="二月3">
+</div>
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/feb_4.jpg" alt="二月4">
+  <img src="/pic/summary_2/feb_5.jpg" alt="二月5">
+  <img src="/pic/summary_2/feb_6.jpg" alt="二月6">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;二月，在等待考研成绩的焦虑中，我和伙伴们一起玩起了《星露谷物语》，在虚拟的农场里找到了片刻的宁静与快乐，那段时光现在回想起来格外温馨。</font>
+</div>
+
+<div class="month-block">
+<div class="month-photos cols-2">
+  <img src="/pic/summary_2/mar_1.jpg" alt="三月1">
+  <img src="/pic/summary_2/mar_2.jpg" alt="三月2">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;三月，收到了SIAT/SUAT复试上岸的好消息，心中的石头终于落地。同月，迎来了当兵归来的好兄弟X扬，久别重逢，还是熟悉的配方，还是熟悉的味道，我们在一起总会有那么多的欢乐。</font>
+</div>
+
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/apr_1.jpg" alt="四月1">
+  <img src="/pic/summary_2/apr_2.jpg" alt="四月2">
+  <img src="/pic/summary_2/apr_3.jpg" alt="四月3">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;四月，X扬兑现了他当兵前的承诺，带我们去珠海长隆游玩。已经记不清那是过了多久之后我们的一次完全体了，只知道那是考研结束后最放松、最快乐的时光。</font>
+</div>
+
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/jun_1.jpg" alt="六月1">
+  <img src="/pic/summary_2/jun_2.jpg" alt="六月2">
+  <img src="/pic/summary_2/jun_3.jpg" alt="六月3">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;六月，毕业典礼如期而至。穿着学士服，和同学们拍照留念，听着校长的寄语，心中五味杂陈。四年的本科时光就这样画上了句号。</font>
+</div>
+
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/jul_1.jpg" alt="七月1">
+  <img src="/pic/summary_2/jul_2.jpg" alt="七月2">
+  <img src="/pic/summary_2/jul_3.jpg" alt="七月3">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;七月，去好兄弟X楷家烧烤，几个好友围坐在一起，烤肉、聊天、回忆过往，那种简单纯粹的快乐让人难忘。噢对，烧烤那天是台风天，也就我们想的出来在这天烧烤了。哈哈。</font>
+</div>
+
+
+<div class="month-block">
+<div class="month-photos cols-1">
+  <img src="/pic/summary_2/sep_1.jpg" alt="九月1">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;新生，干杯！</font>
+</div>
+
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/oct_1.jpg" alt="十月1">
+  <img src="/pic/summary_2/oct_2.jpg" alt="十月2">
+  <img src="/pic/summary_2/oct_3.jpg" alt="十月3">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;徒步</font>
+</div>
+
+<div class="month-block">
+<div class="month-photos cols-3">
+  <img src="/pic/summary_2/nov_1.jpg" alt="十一月1">
+  <img src="/pic/summary_2/nov_2.jpg" alt="十一月2">
+  <img src="/pic/summary_2/nov_3.jpg" alt="十一月3">
+</div>
+<font size=3 face="微软雅黑">&emsp;&emsp;十一月，看了人生中第一场大型篮球赛——全运会广东对山东的比赛，现场的氛围震撼人心，那种热血沸腾的感觉让我久久难忘。同月，还补完了《鬼灭之刃》系列，并去电影院看了新电影，被剧情和画面深深打动，真的太好看了！</font>
+</div>
+
+
+<h2 id="回顾2024年的小目标"><a href="#回顾2024年的小目标" class="headerlink" title="回顾2024年的小目标"></a>回顾2024年的小目标</h2><p><font size=3 face="微软雅黑">&emsp;&emsp;去年年末，我给自己定下了几个小目标，现在来看看完成情况：</p>
+<p><strong>1. 完善自己的博客网页，争取做到月更</strong><br>&emsp;&emsp;惭愧地说，这个目标完成得不太理想。考研、毕业，各种事情让我没能坚持月更，但博客依然在，心意还在，来年继续努力。</p>
+<p><strong>2. 去探索更多的城市，去认识更多的人</strong><br>&emsp;&emsp;城市没探到，人倒是有认识，来年继续加油！</p>
+<p><strong>3. 看够五本书，写写阅读笔记</strong><br>&emsp;&emsp;666，我还制定过这个计划嘛，跳过了</p>
+<p><strong>4. 吉他学会新的五首歌，学会画点人像画，继续篮球and健身</strong><br>&emsp;&emsp;吉他断断续续在练，人像画还没开始，但画了风景画</p>
+<p><strong>5. 爱父母，爱家人，爱身边的朋友，爱自己❤️</strong><br>&emsp;&emsp;这一点一直在坚持，也会一直坚持下去。<br></font></p>
+<h2 id="2026年的小目标"><a href="#2026年的小目标" class="headerlink" title="2026年的小目标"></a>2026年的小目标</h2><font size=3 face="微软雅黑">
+
+<ol>
+<li><p>好好学习专业知识，跟着导师做好科研项目，争取发一篇B类论文</p>
+</li>
+<li><p>坚持博客更新，至少每两个月写一篇文章，记录研究生生活</p>
+</li>
+<li><p>这次真的要读完五本课外书，并写读书笔记</p>
+</li>
+<li><p>继续去探索更多的城市，去认识更多的人</p>
+</li>
+<li><p>练吉他，学钢琴？</p>
+</li>
+<li><p>爱父母，爱家人，爱朋友，爱自己，珍惜当下的每一天❤️</p>
+</li>
+</ol>
+<p>最后，感谢2025年的所有经历，感谢那个努力的自己。2026年，继续加油，慢慢变好，慢慢相遇。愿新的一年学业进步，科研顺利，身体健康，万事如意！<br></font></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span><strong>License:</strong></span>
+                        <span>Copyright (c) <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span><strong>Slogan:</strong></span>
+                         <span>华生你发现了 <strong>盲点</strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E9%9A%8F%E7%AC%94/">🔖随笔</a>
+                    
+                        <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">🔖年度总结</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/10/19/work251019/">学习记录|10月：qwen3vl==你不要太强</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'Ov23limJfmNOGg3GXeoa',
+        clientSecret: 'b74606d594e380855cf2ea10d261ea04105e0fab',
+        repo: 'DoneHans.github.io',
+        owner: 'DoneHans',
+        admin: 'DoneHans',
+        id: location.pathname,
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false,
+        proxy: 'https://strong-caramel-969805.netlify.app/github_access_token'
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        if(theme==="dark")
+            color = "255,255,255";
+        else
+            color = "0,0,0";
+
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", color),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    
+
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+
+    
+    // Update theme when theme switcher is clicked
+    const toggleDesktop = document.querySelector('label[for="switch_default"]');
+    const toggleMobile = document.querySelector('#mobile-toggle-theme');
+
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+
+
+</script>  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2025 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+         <!-- 访客数量 -->
+          
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<span class="site-uv">
+
+ |<font size=5>👀</font>
+ <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+
+</span>&nbsp;&nbsp;
+
+
+
+
+
+<span class="site-pv">
+
+<font size=4>👣</font>
+
+ <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+
+</span>
+
+  
+        
+        </span>
+    </div>
+</footer>
+
+
+<!-- Ho GaFai -->
+    </div>
+</body>
+
+</html>
