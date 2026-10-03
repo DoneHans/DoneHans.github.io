@@ -1,3 +1,10 @@
+.home-menu-button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
 .gt-container,
 .gt-header-textarea,
 .gt-header-preview {

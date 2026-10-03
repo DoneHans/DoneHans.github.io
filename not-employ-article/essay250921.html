@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="Ho GaFai">
@@ -31,6 +31,8 @@
 
 
 
+<link rel="stylesheet" href="/css/navigation.css">
+
     <!-- scripts list from _config.yml -->
     
     <script src="/js/script.js"></script>
@@ -48,7 +50,7 @@
 
 <meta name="generator" content="Hexo 6.3.0"></head>
 
-<body>
+<body class="">
     <script>
         // this function is used to check current theme before page loaded.
         (() => {
@@ -58,36 +60,37 @@
             if (isDark) {
                 pagebody.classList.add('dark-theme');
                 // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
             } else {
                 pagebody.classList.remove('dark-theme');
                 // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Light"
             }
         })();
     </script>
 
     <div class="wrapper">
-        <header>
+        
+<header class="site-header">
     <nav class="navbar">
         <div class="container">
-            <div class="navbar-header header-logo"><a href="/">🏠主页</a></div>
+            <div class="navbar-header header-logo"><a href="/" aria-label="DoneHans 首页"><span class="brand-monogram" aria-hidden="true">h.</span><span class="brand-wordmark">DoneHans<span class="home-brand-dot">.</span><span class="brand-caption">BLOG & LITTLE THINGS</span></span>
+</a></div>
             <div class="menu navbar-right">
+                <a class="menu-item nav-home" href="/" ><span aria-hidden="true">✦</span> 首页</a>
                 
-                    <a class="menu-item" href="/timeline">⏳动态</a>
+                    <a class="menu-item" href="/timeline" >动态</a>
                 
-                    <a class="menu-item" href="/archives">📖博文</a>
+                    <a class="menu-item" href="/archives" >博文</a>
                 
-                    <a class="menu-item" href="/category">📚类别</a>
+                    <a class="menu-item" href="/category" >类别</a>
                 
-                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                    <a class="menu-item" href="/tag" >标签</a>
                 
-                    <a class="menu-item" href="/about">💡关于</a>
+                    <a class="menu-item" href="/about" >关于</a>
                 
-                    <a class="menu-item" href="/links">🔗友链</a>
+                    <a class="menu-item" href="/links" >友链</a>
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
-                <label for="switch_default" class="toggleBtn"></label>
+                <label for="switch_default" class="toggleBtn" aria-label="切换明暗主题" role="button" tabindex="0" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }"></label>
             </div>
         </div>
     </nav>
@@ -97,23 +100,25 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">🏠主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                    <a href="/" aria-label="DoneHans 首页"><span class="brand-monogram" aria-hidden="true">h.</span><span class="brand-wordmark">DoneHans<span class="home-brand-dot">.</span><span class="brand-caption">BLOG & LITTLE THINGS</span></span>
+</a><button type="button" id="mobile-toggle-theme" class="home-menu-button" aria-label="切换明暗主题">·&nbsp;Light</button>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+                <button type="button" class="menu-toggle home-menu-button" onclick="mobileBtn()" aria-expanded="false" aria-controls="mobile-menu">&#9776; Menu</button>
             </div>
             <div class="menu" id="mobile-menu">
+                <a class="menu-item nav-home" href="/" >✦ 首页</a>
                 
-                    <a class="menu-item" href="/timeline">⏳动态</a>
+                    <a class="menu-item" href="/timeline" >动态</a>
                 
-                    <a class="menu-item" href="/archives">📖博文</a>
+                    <a class="menu-item" href="/archives" >博文</a>
                 
-                    <a class="menu-item" href="/category">📚类别</a>
+                    <a class="menu-item" href="/category" >类别</a>
                 
-                    <a class="menu-item" href="/tag">🔖󠀦󠀦标签</a>
+                    <a class="menu-item" href="/tag" >标签</a>
                 
-                    <a class="menu-item" href="/about">💡关于</a>
+                    <a class="menu-item" href="/about" >关于</a>
                 
-                    <a class="menu-item" href="/links">🔗友链</a>
+                    <a class="menu-item" href="/links" >友链</a>
                 
             </div>
         </div>
@@ -125,14 +130,17 @@
         var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
         var mobileMenu = document.getElementById("mobile-menu");
         if(toggleMenu.classList.contains("active")){
+           toggleMenu.setAttribute('aria-expanded', 'false');
            toggleMenu.classList.remove("active")
             mobileMenu.classList.remove("active")
         }else{
+            toggleMenu.setAttribute('aria-expanded', 'true');
             toggleMenu.classList.add("active")
             mobileMenu.classList.add("active")
         }
     }
 </script>
+
             <div class="main">
                 <div class="container">
     <article class="post-wrap page">
@@ -156,121 +164,81 @@
     </article>
 </div>
 
+
 <script>
-!
-function() {
-    function n(n, e, t) {
-        return n.getAttribute(e) || t
+(function () {
+  const options = {"home":false,"opacity":0.5,"count":100};
+  const canvas = document.createElement('canvas');
+  canvas.setAttribute('aria-hidden', 'true');
+  canvas.style.cssText = 'position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:' + options.opacity;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let width, height, points = [], frame;
+  const pointer = { x: null, y: null };
+  function resize() {
+    const previousWidth = width;
+    const previousHeight = height;
+    width = Math.max(1, window.innerWidth);
+    height = Math.max(1, window.innerHeight);
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    // count describes density at 1280 × 800 CSS pixels, independent of pixel ratio.
+    const count = Math.min(240, Math.round(options.count * width * height / (1280 * 800)));
+    points.forEach(p => {
+      p.x *= width / previousWidth;
+      p.y *= height / previousHeight;
+    });
+    points.length = Math.min(points.length, count);
+    while (points.length < count) {
+      points.push({ x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - 0.5) * 0.45, vy: (Math.random() - 0.5) * 0.45 });
     }
-    function e(n) {
-        return document.getElementsByTagName(n)
-    }
-    function t() {
-        var t = e("script"),
-        o = t.length,
-        i = t[o - 1];
-
-        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        if(theme==="dark")
-            color = "255,255,255";
-        else
-            color = "0,0,0";
-
-        return {
-            l: o,
-            z: n(i, "zIndex", -1),     //置于主页面背后
-            o: n(i, "opacity", .5),     //线条透明度
-            c: n(i, "color", color),  //线条颜色
-            n: n(i, "count", 100)    //线条数量
+    pointer.x = pointer.y = null;
+    if (reducedMotion.matches || document.hidden) draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    const color = document.body.classList.contains('dark-theme') ? '210,220,228' : '91,110,122';
+    points.forEach((p, index) => {
+      if (!reducedMotion.matches) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+      }
+      ctx.fillStyle = 'rgba(' + color + ',0.6)';
+      ctx.fillRect(p.x, p.y, 1, 1);
+      function connect(q, radius) {
+        const distance = Math.hypot(p.x - q.x, p.y - q.y);
+        if (distance < radius) {
+          ctx.beginPath(); ctx.lineWidth = options.home ? 0.8 : 0.7;
+          ctx.strokeStyle = 'rgba(' + color + ',' + (0.55 * (1 - distance / radius)) + ')';
+          ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
         }
-    }
-    function o() {
-        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    }
-    function i() {
-        r.clearRect(0, 0, a, c);
-        var n, e, t, o, m, l;
-        s.forEach(function(i, x) {
-            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
-            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
-        }),
-        x(i)
-    }
-
-    var a, c, u, m = document.createElement("canvas"),
-    d = t(),
-    l = "c_n" + d.l,
-    r = m.getContext("2d"),
-    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function(n) {
-        window.setTimeout(n, 1e3 / 45)
-    },
-    w = Math.random,
-    y = {
-        x: null,
-        y: null,
-        max: 2e4
-    };
-    
-
-    m.id = l,
-    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
-    e("body")[0].appendChild(m),
-    o(),
-    window.onresize = o,
-    window.onmousemove = function(n) {
-        n = n || window.event,
-        y.x = n.clientX,
-        y.y = n.clientY
-    },
-    window.onmouseout = function() {
-        y.x = null,
-        y.y = null
-    };
-    for (var s = [], f = 0; d.n > f; f++) {
-        var h = w() * a,
-        g = w() * c,
-        v = 2 * w() - 1,
-        p = 2 * w() - 1;
-        s.push({
-            x: h,
-            y: g,
-            xa: v,
-            ya: p,
-            max: 6e3
-        })
-    }
-
-    
-    // Update theme when theme switcher is clicked
-    const toggleDesktop = document.querySelector('label[for="switch_default"]');
-    const toggleMobile = document.querySelector('#mobile-toggle-theme');
-
-    if (toggleDesktop) {
-        toggleDesktop.addEventListener('click', function() {
-            location.reload();
-        });
-    }
-
-    if (toggleMobile) {
-        toggleMobile.addEventListener('click', function() {
-            location.reload();
-        });
-    }
-
-
-    u = s.concat([y]),
-    setTimeout(function() {
-        i()
-    },
-    100)
-} ();
-
-
-</script>  
+      }
+      for (let j = index + 1; j < points.length; j++) connect(points[j], 130);
+      if (pointer.x !== null && !reducedMotion.matches) connect(pointer, 150);
+    });
+  }
+  function animate() { draw(); frame = requestAnimationFrame(animate); }
+  function start() { cancelAnimationFrame(frame); if (reducedMotion.matches || document.hidden) draw(); else animate(); }
+  window.addEventListener('resize', resize);
+  window.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') { pointer.x = e.clientX; pointer.y = e.clientY; } });
+  document.documentElement.addEventListener('pointerleave', () => { pointer.x = pointer.y = null; });
+  document.addEventListener('visibilitychange', start);
+  reducedMotion.addEventListener('change', start);
+  new MutationObserver(() => { if (reducedMotion.matches) draw(); }).observe(document.body, { attributes:true, attributeFilter:['class'] });
+  resize(); start();
+})();
+</script>
+  
             </div>
             <footer id="footer" class="footer">
+    
     <div class="copyright">
         <span>© 2025 🖤| All Rights Reserved | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
          <!-- 访客数量 -->
@@ -302,10 +270,12 @@ function() {
         
         </span>
     </div>
+    
 </footer>
 
 
 <!-- Ho GaFai -->
+
     </div>
 </body>
 
